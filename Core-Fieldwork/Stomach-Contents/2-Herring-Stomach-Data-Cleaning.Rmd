@@ -1,0 +1,770 @@
+---
+title: "Untitled"
+author: "Madeleine Thomson"
+date: "2025-02-12"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+
+#load packages
+library(tidyverse)
+library(stringr)
+library(openxlsx)
+library(lubridate)
+
+```
+
+This document contains code for cleaning and cross-referencing data entered in the data collection app Epicollect5 as part of Activity 1 of PSF's Salmon-Herring interactions project. The Epicollect5 form *PSF Gastric Lavage Sampling* contains all salmonid data recorded in the lab, including data from external collaborators such as DFO (Trawl Survey Fish). Epicollect5 creates several data sheets per form that can be cross-referenced to eachother using auto-generated ID columns.
+
+#Load data
+
+```{r}
+#working directory
+setwd("C:/Users/madeleinethomson/OneDrive/Herring-SRIF/Stomach-Contents/")
+
+#date data was downloaded from Epicollect
+# Download_Date <- Sys.Date()
+Download_Date <- "2026-04-26"
+
+sampling_day <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/form-1__sample-information.csv"),sep=",", na.strings=c("","NA"))
+
+stom <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/form-2__stomach-contents.csv"),sep=",", na.strings=c("","NA"))
+
+fish <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/branch-1__fish.csv"),sep=",", na.strings=c("","NA"))
+
+intact_invert <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/branch-2__intact-prey.csv"),sep=",", na.strings=c("","NA"))
+
+stom_summary_we <- read.csv("./Winter-Ecology-Transfer/Data-Reformatting/2026-07-14-psf-winter-A1-stom-stomach-summary.csv", sep=",", na.strings=c("","NA")) %>%
+  mutate(date = as.Date(date),
+         analysis_date = as.Date(analysis_date)) %>%
+  mutate(survey_name = "BCSRIF Herring", salmon_sample_type == "Stomach Contents ONLY")
+
+stom_fish_we <- read.csv("./Winter-Ecology-Transfer/Data-Reformatting/2026-07-14-psf-winter-A1-stom-fish-prey.csv", sep=",", na.strings=c("","NA")) %>%
+  mutate(date = as.Date(date),
+         analysis_date = as.Date(analysis_date)) %>%
+  mutate(survey_name = "BCSRIF Herring", salmon_sample_type == "Stomach Contents ONLY")
+
+
+stom_isotope_we <- read.csv("./Winter-Ecology-Transfer/Data-Reformatting/2026-07-14-psf-winter-A1-stom-isotope-prey.csv", sep=",", na.strings=c("","NA")) %>%
+  mutate(date = as.Date(date),
+         analysis_date = as.Date(analysis_date)) %>%
+  mutate(survey_name = "BCSRIF Herring", salmon_sample_type == "Stomach Contents ONLY")
+```
+
+#Rename cross-referencing columns
+
+```{r}
+
+sampling_day <- sampling_day %>%
+  dplyr::select(-c(created_at, uploaded_at, created_by, title)) %>% 
+  rename(ec5_uuid_day = ec5_uuid) %>%
+  mutate(date = as.Date(date, format = "%d/%m/%Y"))
+
+stom <- stom %>%
+  dplyr::select(-c(uploaded_at, created_by, title)) %>%
+  rename(ec5_uuid_stom = ec5_uuid, 
+         ec5_uuid_day = ec5_parent_uuid)
+
+fish <- fish %>% 
+  dplyr::select(-c(created_at, uploaded_at, created_by, title)) %>%
+  rename(ec5_uuid_stom = ec5_branch_owner_uuid)
+
+intact_invert <- intact_invert %>% 
+  rename(ec5_uuid_stom = ec5_branch_owner_uuid)
+```
+
+#General wrangling
+
+```{r}
+
+#review regions
+sort(unique(sampling_day$general_location))
+
+#fill in survey name = "BCSRIF Herring" if the team is not DFO
+sampling_day <- sampling_day %>% mutate(survey_name = case_when(
+  team %in% c("UVic/PSF", "Cowichan", "A-Tlegay", "Tla'amin") ~ "BCSRIF Herring",
+  TRUE ~ survey_name))
+
+unique(sampling_day$survey_name)
+#no NAs - good
+
+#ensure species codes are only recorded under the trawl survey
+sampling_day <- sampling_day %>% mutate(trawl_species_code = case_when(
+  survey_name != "SOG Midwater Salmon Trawl" ~ NA,
+  TRUE ~ trawl_species_code))
+
+#extract analysis date
+stom$analysis_date <- as.Date(sub("T.*", "", stom$created_at)) 
+
+#general formatting
+stom <- stom %>% 
+  #relocate analysis date column
+  relocate(analysis_date, .after = created_at) %>%
+  #If salmon sample type was not recorded, assign stomach contents only
+  mutate(salmon_sample_type = 
+           case_when(is.na(salmon_sample_type) ~ "Stomach Contents ONLY",
+           TRUE ~ salmon_sample_type))
+
+#check that it worked (shouldn't be any NAs)
+unique(stom$salmon_sample_type)
+
+
+```
+
+#Fix salmon isotope codes
+
+```{r}
+#look at stomach codes
+unique(stom$salmon_code_SI)
+unique(stom$salmon_fin_code_SI)
+
+#combine two columns that have isotope codes
+stom <- stom %>%
+  mutate(salmon_code_SI = case_when(is.na(salmon_code_SI) ~ salmon_fin_code_SI,
+                                    is.na(salmon_fin_code_SI) ~ salmon_code_SI))
+
+#look at combined column
+names <- unique(stom$salmon_code_SI)
+
+#remove second column
+stom <- stom %>% dplyr::select(-salmon_fin_code_SI)
+
+#do some manual fixes
+stom <- stom %>%
+  mutate(salmon_code_SI = case_when(
+    salmon_code_SI == 458 & lavage_bag == 1063 ~ "TRAWL-458",
+    salmon_code_SI == 459 & lavage_bag == 1060 ~ "TRAWL-459",
+    salmon_code_SI == 460 & lavage_bag == 1061 ~ "TRAWL-460",
+    salmon_code_SI == 485 & lavage_bag == 1276 ~ "TRAWL-485",
+    salmon_code_SI == 488 & lavage_bag == 1274 ~ "TRAWL-488",
+    salmon_code_SI == 491 & lavage_bag == 1278 ~ "TRAWL-491",
+    salmon_code_SI == 498 & lavage_bag == 1822 ~ "TRAWL-498",
+    salmon_code_SI == 504 & lavage_bag == 1846 ~ "TRAWL-504",
+    salmon_code_SI == 530 & lavage_bag == 1081 ~ "TRAWL-530",
+    TRUE ~ salmon_code_SI))
+
+
+#do the reformatting
+stom <- stom %>% mutate(salmon_code_SI = case_when(
+  
+  grepl("CS_|CR_|CS|Cs_", salmon_code_SI) ~ 
+    paste0("CS_", sprintf("%03d", as.integer(gsub("CS_|CR_|CS|Cs_", "", 
+                                                  salmon_code_SI)))),
+  
+  grepl("JHS_|JHS-", salmon_code_SI) ~ 
+    paste0("JHS_", sprintf("%03d", as.integer(gsub("JHS_|JHS-", "", 
+                                                   salmon_code_SI)))),
+  
+  grepl("TRAWL-F|TRAWL_|Trawl-|TRWAL-F", salmon_code_SI) ~
+    paste0("TRAWL-", sprintf("%03d", as.integer(gsub("TRAWL-F|TRAWL_|Trawl-", "", 
+                                                     salmon_code_SI)))),
+  
+  TRUE ~ salmon_code_SI  #leave unchanged if it doesn't match
+  ))
+
+#check that it worked
+names <- sort(unique(stom$salmon_code_SI))
+
+#fix NA values (altered by the reformatting)
+stom$salmon_code_SI[stom$salmon_code_SI == "CS_ NA"] <- NA
+stom$salmon_code_SI[stom$salmon_code_SI == "JHS_ NA"] <- NA
+stom$salmon_code_SI[stom$salmon_code_SI == "TRAWL- NA"] <- NA
+
+#check that it worked
+names <- sort(unique(stom$salmon_code_SI))
+
+```
+
+#QC - check for missing fish species
+
+```{r}
+#some fish branches with no species recorded?
+unique(fish$fish_species)
+
+#retrieve rows with missing species - go back into Epicollect data to fix
+test <- fish %>% group_by(ec5_uuid_stom) %>% filter(any(is.na(fish_species)))
+test <- sampling_day %>%
+  full_join(stom) %>%
+  right_join(test)
+nrow(test)
+
+#some fish branches species is recorded as "Other"
+test <- fish %>% filter(fish_species == "Other")
+test <- sampling_day %>%
+  full_join(stom) %>%
+  right_join(test)
+nrow(test)
+
+#check that ID features match species assigned
+test <- fish %>% 
+  group_by(fish_species) %>%
+  summarise(id_features = list(unique(id_features))) %>%
+  unnest(id_features)
+
+```
+
+#QC - clean and fill scale book numbers
+
+```{r}
+stom <- stom %>%
+  group_by(analysis_date) %>%
+  arrange(created_at) %>%
+  mutate(scale_book_fill = scale_book) %>%
+  fill(scale_book_fill, .direction = "down") %>%
+  mutate(scale_book = case_when(salmon_scale_status == "Yes" ~ scale_book_fill,
+                                scale_book == "APSF0268" ~ "PSF0268",
+                                scale_book == "CAN'TDETERMINESCALE" ~ NA,
+                                TRUE ~ scale_book)) %>%
+  #remove extra spaces or underscores
+  mutate(scale_book = gsub("_", "", scale_book)) %>%
+  mutate(scale_book = gsub(" ", "", scale_book)) %>%
+  #convert PSF scale books to PSFXXXX form
+  mutate(scale_book = case_when(nchar(scale_book) <= 3 ~ paste0("PSF", str_pad(as.factor(scale_book), width = 4, pad = "0")), TRUE ~ as.factor(scale_book))) %>%
+  mutate(scale_book = toupper(scale_book))
+
+sort(unique(stom$scale_book))
+
+#check for missing scale book
+test <- stom %>% filter(is.na(scale_book) & !is.na(scale_no))
+nrow(test)
+
+#check for duplicate scale ID
+test <- stom %>%
+  mutate(scale_id = paste(scale_book, scale_no, sep = "-")) %>%
+  filter(!is.na(scale_no)) %>%
+  filter(duplicated(scale_id) | duplicated(scale_id, fromLast = TRUE))
+nrow(test)
+
+```
+
+
+
+#QC - check otolith vial numbers
+
+
+```{r}
+# sort(unique(fish$otolith_vial))
+
+#make some manual corrections
+
+#add in an otolith entry that was taken later
+fish <- fish %>%
+  mutate(otolith_vial = case_when(fish_code_SI == "I24-0011" ~ "H24-0419",
+                                  TRUE ~ otolith_vial))
+
+#comments were accidentally entered under otolith vial column
+fish <- fish %>% 
+  mutate(fish_comments = case_when(
+    otolith_vial %in% c(
+      "No number, sample information written on vial.",
+      "Just the dentary free floating. Maybe from that larval fish",
+      "Just vertebrae low confidence Stomach contents from bag not physical stomach",
+      "no ID bones ") ~ paste(otolith_vial, fish_comments, sep = "; "),
+    TRUE ~ fish_comments)) %>%
+  mutate(otolith_vial = case_when(
+    otolith_vial %in% c(
+      "No number, sample information written on vial.",
+      "Just the dentary free floating. Maybe from that larval fish",
+      "Just vertebrae low confidence Stomach contents from bag not physical stomach",
+      "no ID bones ") ~ NA,
+    TRUE ~ otolith_vial))
+
+#these have unusual formatting
+test <- fish %>% filter(otolith_vial %in% c(
+   "U25-0001", "S24-0001", "X25-0001", "BCSRIF_077", "H25--0406",
+   "H25-0127f", "0.0681", "0.0736", "24-0001", "24-0002", "24-0003"))
+
+#weights were accidentally entered under otolith vial column
+fish <- fish %>% 
+  mutate(fish_mass_g = case_when(
+    otolith_vial == "0.0736" ~ 0.0736,
+    otolith_vial == "0.0681" ~ 0.0681,
+    TRUE ~ fish_mass_g)) %>%
+  mutate(otolith_vial = case_when(
+    otolith_vial == "0.0736" ~ NA,
+    otolith_vial == "0.0681" ~ NA,
+    TRUE ~ otolith_vial)) 
+
+#typos in code entered
+fish <- fish %>% mutate(otolith_vial = case_when(
+  otolith_vial == "H25-0127f" ~ "H25-0127", 
+  otolith_vial == "S24-0001" ~ "L24-0001",
+  otolith_vial == "H25--0406" ~ "H25-0406",
+  TRUE ~ otolith_vial))
+
+#what remains are non-forage fish that received an ad-hoc code from the processor
+#I will just ignore these for now
+test <- fish %>% filter(otolith_vial %in% c(
+   "U25-0001", "S24-0001", "X25-0001", "BCSRIF_077", "H25--0406",
+   "H25-0127f", "0.0681", "0.0736", "24-0001", "24-0002", "24-0003"))
+
+fish <- fish %>%
+  mutate(
+    prefix = sub("-.*", "", otolith_vial),
+    num = suppressWarnings(as.integer(sub(".*-", "", otolith_vial))),
+    otolith_vial2 = if_else(
+      prefix %in% c("A23","L23","H23","A24","L24","H24","A25","L25","H25") & !is.na(num),
+      paste0(prefix, "-", sprintf("%04d", num)), otolith_vial)) %>%
+  relocate(otolith_vial2, .after = otolith_vial)
+
+sort(unique(fish$otolith_vial2))
+
+fish <- fish %>% dplyr::select(-otolith_vial) %>% rename(otolith_vial = otolith_vial2)
+colnames(fish)
+
+#check for fish with otoliths taken but no vial number recorded
+test <- fish %>% filter(otolith_count > 0 & is.na(otolith_vial))
+test <- sampling_day %>%
+  full_join(stom) %>%
+  right_join(test)%>%
+  dplyr::select(date, general_location, ec5_uuid_stom, lavage_bag, 
+                fish_species, otolith_count, otolith_vial, fish_comments)
+nrow(test)
+#most of these are non-forage fish
+#two are herring - but already tried to resolve and couldn't
+
+#check for duplicated codes
+test <- fish %>%
+  filter(!is.na(otolith_vial)) %>%
+  filter(duplicated(otolith_vial) | duplicated(otolith_vial, fromLast = TRUE)) %>%
+  arrange(otolith_vial)
+
+test <- sampling_day %>%
+  full_join(stom) %>%
+  right_join(test) %>%
+  dplyr::select(survey_name, date, general_location, analysis_date, lavage_bag, 
+                fish_species, otolith_count, otolith_vial)
+nrow(test)
+
+#address duplicated codes
+fish <- fish %>% mutate(otolith_vial = case_when(
+  otolith_vial == "H24-0063" & 
+    ec5_uuid_stom == "acdbae50-7471-11f0-a9c8-73ec6997cf98" ~ "H25-0063", 
+  #duplicate "H24-0103", but this entry was created first and the size of the imaged otolith
+  #is more appropriate to that time of year than the other entry
+  otolith_vial == "H24-0103" &
+    ec5_uuid_stom == "45f418a0-cea7-11ef-bddc-558971f8f8a0" ~ "H24-0102",
+  otolith_vial == "H24-0143" &
+    ec5_uuid_stom == "822ccac6-850d-4fdc-8340-33ba0c6c7790" ~ "H25-0143",
+  TRUE ~ otolith_vial))
+
+
+#check for gaps in "H25-" sequence
+test <- fish %>%
+  filter(grepl("H25-", otolith_vial)) %>%
+  summarise(missing = list(setdiff(seq(min(num), max(num)), num)))
+test$missing
+
+#check for gaps in "H24-" sequence
+test <- fish %>%
+  filter(grepl("H24-", otolith_vial)) %>%
+  summarise(missing = list(setdiff(seq(min(num), max(num)), num)))
+test$missing
+
+#check for gaps in "H23-" sequence
+test <- fish %>%
+  filter(grepl("H23-", otolith_vial)) %>%
+  summarise(missing = list(setdiff(seq(min(num), max(num)), num)))
+test$missing
+#none - hooray!
+
+#check for gaps in "L25-" sequence
+test <- fish %>%
+  filter(grepl("L25-", otolith_vial)) %>%
+  summarise(missing = list(setdiff(seq(min(num), max(num)), num)))
+test$missing
+
+#check for gaps in "L24-" sequence
+test <- fish %>%
+  filter(grepl("L24-", otolith_vial)) %>%
+  summarise(missing = list(setdiff(seq(min(num), max(num)), num)))
+test$missing
+
+
+#check for codes where species doesn't match
+
+
+
+#check for rows with otoliths recorded, but no otolith code
+
+
+
+# 
+# test <- fish %>%
+#   filter(!is.na(otolith_vial))
+# 
+# test <- sampling_day %>%
+#   full_join(stom) %>%
+#   right_join(test) %>%
+#   dplyr::select(ec5_uuid_stom, survey_name, date, 
+#                 general_location, analysis_date, lavage_bag, 
+#                 fish_species, otolith_count, otolith_vial, prefix, num)
+# 
+# setwd("C:/Users/madeleinethomson/OneDrive/Herring-SRIF/Stomach-Contents/")
+# write.csv(test, paste0("./QC-Records/Otolith-Code-QC-", Sys.Date(), ".csv"))
+```
+
+#QC - check for improperly recorded weights
+ 
+```{r}
+
+bad_weight_stom <- stom %>% filter(combined_mass_g < 0 | combined_mass_g == 0 & !is.na(remaining_prey) | is.na(combined_mass_g) & !is.na(remaining_prey) | combined_mass_g > 25)
+bad_weight_stom$ec5_uuid_stom
+
+
+bad_weight_fish <- fish %>% filter(fish_mass_g <= 0 | is.na(fish_mass_g) | fish_mass_g > 25)
+bad_weight_fish$ec5_uuid_stom 
+
+bad_weight_invert <- intact_invert %>% filter(intact_prey_mass_g <= 0 | is.na(intact_prey_mass_g | intact_prey_mass_g > 25))
+bad_weight_invert$ec5_uuid_stom 
+
+#take a look at all the bad weights to see if any of them can be fixed
+
+#create a list of bad weights - add a column to any printed data frame 
+#that specifies to use these stomachs for presence-absence analysis only
+#and replace weights with NA
+bad_weight <- c(bad_weight_stom$ec5_uuid_stom, 
+          bad_weight_fish$ec5_uuid_stom,
+          bad_weight_invert$ec5_uuid_stom)
+bad_weight
+
+```
+
+#Merge day and stom forms
+
+```{r}
+day_stom <- full_join(sampling_day, stom)
+```
+
+
+#Fix juvenile herring survey salmon entries
+
+```{r}
+
+
+jhs_clean <- day_stom %>% 
+  filter(survey_name == "SOG Fall Juvenile Herring Survey") %>%
+  filter(lavage_bag >= 60 & lavage_bag <= 117) %>%
+  group_by(lavage_bag) %>%
+  summarise(
+    ec5_uuid_stom =
+      ec5_uuid_stom[salmon_sample_type == "Stomach Contents ONLY"][1],
+    fish_prey_presence =
+      fish_prey_presence[salmon_sample_type == "Stomach Contents ONLY"][1],
+    Fish_Brnch =
+      Fish_Brnch[salmon_sample_type == "Stomach Contents ONLY"][1],
+    intact_prey_presence =
+      intact_prey_presence[salmon_sample_type == "Stomach Contents ONLY"][1],
+    Intact_Prey_Brnch =
+      Intact_Prey_Brnch[salmon_sample_type == "Stomach Contents ONLY"][1],
+    remaining_prey =
+      remaining_prey[salmon_sample_type == "Stomach Contents ONLY"][1],
+    combined_mass_g =
+      combined_mass_g[salmon_sample_type == "Stomach Contents ONLY"][1],
+    other_comments =
+      other_comments[salmon_sample_type == "Stomach Contents ONLY"][1],
+    unk_prey_photo =
+      unk_prey_photo[salmon_sample_type == "Stomach Contents ONLY"][1],
+    analyst = coalesce(analyst[1], analyst[2]),
+    across(everything(), ~ .x[salmon_sample_type == "Whole Fish"][1]))
+
+#check for duplicated codes
+test <- jhs_clean[duplicated(jhs_clean$salmon_code_SI) | 
+                    duplicated(jhs_clean$salmon_code_SI, fromLast = TRUE), ]
+nrow(test)
+test$salmon_code_SI
+
+jhs_clean <- jhs_clean %>% 
+  mutate(salmon_code_SI = case_when(
+    salmon_code_SI == "JHS_082" & lavage_bag == 81 ~ "JHS_081",
+    salmon_code_SI == "JHS_110" & lavage_bag == 111 ~ "JHS_111",
+    TRUE ~ salmon_code_SI))
+
+nrow(day_stom)
+
+day_stom <- day_stom %>%
+  filter(
+    is.na(survey_name) | is.na(lavage_bag) |
+  !(survey_name == "SOG Fall Juvenile Herring Survey" &
+    lavage_bag >= 60 & lavage_bag <= 117))
+
+day_stom <- rbind(day_stom, jhs_clean)
+
+nrow(day_stom)
+
+```
+
+#Clean dates
+
+```{r}
+day_stom <- day_stom %>%
+  mutate(year = year(date),
+         month = month(date),
+         day = day(date)) %>%
+  relocate(year, .before = date) %>%
+  relocate(month, .after = year) %>%
+  relocate(day, .after = month) %>%
+  #manually update year for sample without date (based on correspondence with Matt Thompson)
+  mutate(year = case_when(ec5_uuid_day == "b14e369b-36a4-4223-b547-e8729f1608a5" ~ 2024,
+                          TRUE ~ year))
+
+test <- day_stom %>% filter(ec5_uuid_day == "b14e369b-36a4-4223-b547-e8729f1608a5")
+
+```
+
+#Main data 1: presence-absence by group
+
+```{r}
+
+fish_summ <- fish %>%
+  group_by(ec5_uuid_stom, fish_species) %>%
+  summarise(fish_mass_g = sum(fish_mass_g)) %>%
+  pivot_wider(values_from = fish_mass_g, names_from = fish_species, 
+              names_prefix = "mass_g_") 
+
+fish_summ2 <- fish %>%
+  group_by(ec5_uuid_stom) %>%
+  summarize(fish_taxa = paste(sort(unique(fish_species)),collapse=", "))
+
+fish_summ <- full_join(fish_summ, fish_summ2)
+
+
+intact_invert_summ <- intact_invert %>%
+  group_by(ec5_uuid_stom) %>%
+  summarise(intact_prey_taxa = toString(intact_prey_taxa),
+            intact_prey_mass_g = sum(intact_prey_mass_g)) 
+
+
+combinedA <- day_stom %>% 
+  full_join(fish_summ) %>% 
+  full_join(intact_invert_summ) 
+
+nrow(day_stom) - nrow(combinedA)
+
+#presence absence data
+colnames(combinedA)
+combinedA <- combinedA %>%
+  unite(., col = "all_prey",  fish_taxa, intact_prey_taxa, remaining_prey, 
+        na.rm=TRUE, sep = ", ")
+
+#Function to remove duplicates from the 'all_prey' column
+remove_duplicates_in_column <- function(prey) {
+  #split the string by commas, remove duplicates, and join back into a string
+  prey_list <- unlist(strsplit(prey, ", "))
+  unique_prey <- unique(prey_list)
+  return(paste(unique_prey, collapse = ", "))
+}
+
+#apply the function to the all_prey column
+combinedA$all_prey <- sapply(combinedA$all_prey, remove_duplicates_in_column)
+
+#replace blanks "" with NA
+combinedA <- combinedA %>% mutate(all_prey = case_when(all_prey == "" ~ NA,
+                                                       TRUE ~ all_prey))
+
+#check that all were removed
+combinedA %>% filter(all_prey == "")
+combinedA %>% filter(is.na(all_prey))
+
+#add invertebrate masses together
+combinedA <- combinedA %>%
+  rowwise() %>%
+  mutate(mass_g_Invertebrate = sum(combined_mass_g, intact_prey_mass_g, 
+                                   na.rm = TRUE)) %>%
+  dplyr::select(-c(combined_mass_g, intact_prey_mass_g))
+
+#add in winter ecology data
+combinedA <- full_join(combinedA, stom_summary_we)
+
+nrow(combinedA) - (nrow(day_stom) + nrow(stom_summary_we))
+
+
+#add columns with note about bad weights and replace weights with NA
+combinedA <- combinedA %>%
+  mutate(analysis_type = case_when(ec5_uuid_stom %in% bad_weight ~ "Presence/Absence Only")) %>%
+  mutate(across(contains("Mass_g_"), ~ if_else(ec5_uuid_stom %in% bad_weight, NA, .)))
+
+#select columns of interest
+combinedA <- combinedA %>%
+  dplyr::select(
+    ec5_uuid_stom, created_at, analysis_date, year, month, day, date, 
+    general_location, team, event_type, bag_comments, survey_name, 
+    trawl_cruise, trawl_species_code, JHS_transect,	JHS_station,
+    salmon_species, trawl_set, lavage_bag, salmon_sample_type, salmon_mass_g, 
+    salmon_FL_mm, salmon_clip_status, salmon_tag_status, salmon_tag_id,
+    salmon_scale_status, scale_book, scale_no, salmon_code_SI,
+    salmon_fin_lower_SI, salmon_fin_upper_SI, salmon_fin_DNA, salmon_muscle_SI, 
+    salmon_heart, all_prey, mass_g_Invertebrate,
+    contains("Mass_g"), analysis_type, analyst) %>%
+  arrange(date, general_location, lavage_bag)
+
+
+write.csv(combinedA, paste0(Download_Date, "-psf-herring-A1-stom-stomach-summary.csv"))
+
+
+```
+
+#Main data 2: prey fish details
+
+```{r}
+combinedB <- right_join(day_stom, fish)
+
+nrow(combinedB) - nrow(fish)
+
+combinedB <- full_join(combinedB, stom_fish_we)
+
+nrow(combinedB) - (nrow(fish) + nrow(stom_fish_we))
+
+#add columns with note about bad weights - replace weights with NA
+combinedB <- combinedB %>%
+  mutate(analysis_type = case_when(ec5_uuid_stom %in% bad_weight ~ "Presence/Absence Only"))  %>%
+  mutate(across(contains("Mass_g_"), ~ if_else(ec5_uuid_stom %in% bad_weight, NA, .)))
+
+combinedB <- combinedB %>%
+  dplyr::select(
+    ec5_uuid_stom, created_at, analysis_date, year, month, day, date, 
+    general_location, team, event_type, bag_comments, survey_name, trawl_cruise, 
+    trawl_species_code, trawl_set, JHS_transect,	JHS_station,
+    lavage_bag, salmon_sample_type, salmon_mass_g, salmon_FL_mm, 
+    salmon_clip_status, salmon_tag_status, salmon_tag_id,
+    colnames(fish), analysis_type, analyst) %>%
+  dplyr::select(-c(ec5_branch_uuid, fish_photo, fish_sample_SI, fish_storage_SI)) %>%
+  arrange(date, general_location, lavage_bag)
+
+write.csv(combinedB, paste0(Download_Date, "-psf-herring-A1-stom-fish-prey", ".csv"))
+
+```
+
+
+#Prey stable isotope data
+
+Invertebrate prey saved for stable isotopes are recorded in the intact prey branch. Fish prey saved for stable isotopes are recorded in the fish branch. We need to combine these two forms to get the full list of SI samples.
+
+```{r}
+
+## Invert SI Samples ##
+
+intact_invert2 <- intact_invert %>% 
+  #combine specific taxa info and sample comments into a single column
+  unite("comments", intact_prey_species, intact_prey_comments, 
+        na.rm=TRUE, sep = "; ", remove = TRUE) %>%
+  #remove columns
+  dplyr::select(-c(created_at, uploaded_at, created_by, title, 
+                   intact_prey_photo)) %>%
+  #rename columns for better cross references
+  rename(prey_taxa = intact_prey_taxa,
+         sample_type = intact_prey_sample,
+         analysis_type = intact_prey_analysis,
+         mass_g = intact_prey_mass_g,
+         storage_container = intact_prey_storage,
+         sample_number = intact_prey_code,
+         quality = intact_prey_quality)
+
+## Prey Fish SI Samples ##
+
+#extract data for prey fish saved for stable isotopes
+fish_SI <- fish %>%
+  mutate(analysis_type = "Stable Isotope") %>%
+  #filter rows with a SI sample number recorded
+  filter(!is.na(fish_code_SI)) %>%
+  #remove columns not of interest
+  dplyr::select(-c(id_features, otolith_count, fish_photo)) %>%
+  #rename columns for better cross references
+  rename(prey_taxa = fish_species,
+         comments = fish_comments,
+         mass_g = fish_mass_g,
+         sample_type = fish_sample_SI,
+         storage_container = fish_storage_SI,
+         sample_number = fish_code_SI)
+
+
+#merge invert and fish SI forms
+full_SI <- full_join(intact_invert2, fish_SI) 
+  
+nrow(full_SI) - (nrow(intact_invert2) + nrow(fish_SI))
+
+#move columns around 
+full_SI <- full_SI %>%
+  dplyr::select(c("ec5_uuid_stom", "ec5_branch_uuid", "analysis_type", "prey_taxa",
+                  "sample_number", "mass_g", "sample_type", "storage_container",
+                  "digestion_score", "fish_SL_mm", "otolith_vial", "quality", "comments"))
+
+full_SI <- sampling_day %>%
+  full_join(day_stom) %>%
+  right_join(full_SI) 
+
+#add winter ecology data
+full_SI <- full_join(full_SI, stom_isotope_we)
+
+nrow(full_SI) - (nrow(intact_invert2) + nrow(fish_SI) + nrow(stom_isotope_we))
+
+#entries with prey taxa = OTHER
+test <- full_SI %>% filter(prey_taxa == "Other")
+#looks like the actual taxa is in the comments (yay)
+#assign these on a case-by-case basis for now
+full_SI <- full_SI %>%
+  mutate(prey_taxa = case_when(grepl("Brittle star", comments) ~ "Ophiuroids",
+                               TRUE ~ prey_taxa))
+#check that all were replaced
+nrow(full_SI %>% filter(prey_taxa == "Other"))
+
+#entries with no prey taxa recorded - go back to look at physical samples
+full_SI %>% filter(is.na(prey_taxa))
+
+#fix any error codes
+unique(full_SI$sample_number)
+
+full_SI <- full_SI %>%
+  mutate(sample_number = gsub("I25 ", "I25-", sample_number),
+         sample_number = gsub("I24 ", "I24-", sample_number))
+
+full_SI <- full_SI %>% mutate(
+  sample_number = case_when(
+    sample_number == "H25-0113" ~ "I25-0292",
+    sample_number == "I25-0183" & prey_taxa == "CrabMegalops" ~ "I25-0182",
+    TRUE ~ sample_number))
+
+#select columns of interest
+full_SI <- full_SI %>%
+  dplyr::select(ec5_uuid_stom, created_at, analysis_date, year, month, day,
+                date, general_location, team, lavage_bag,
+                survey_name, trawl_cruise, trawl_set, trawl_species_code,
+                JHS_transect, JHS_station, event_type, prey_taxa, sample_number,
+                mass_g, sample_type, storage_container, fish_SL_mm, otolith_vial,
+                quality, comments,
+                -c(ec5_uuid_day, ec5_branch_uuid)) %>%
+  #sort data frame by sample number
+  arrange(sample_number)
+
+
+write.csv(full_SI, paste0(Download_Date, "-psf-herring-A1-stom-isotope-prey", ".csv"))
+
+```
+
+```{r}
+combinedA %>%
+  group_by(survey_name, year, trawl_cruise, salmon_sample_type) %>% 
+           # salmon_sample_type) %>%
+  # filter(survey_name == "SOG Midwater Salmon Trawl") %>%
+  summarise(count = n())
+```
+
+```{r}
+test <- combinedA %>%
+  mutate(
+    Herring = case_when(grepl("Herring", all_prey) ~ 1, TRUE ~ 0),
+    doy = yday(date)) %>%
+  filter(survey_name == "BCSRIF Herring") %>%
+  dplyr::select(year, date, doy, general_location, all_prey, Herring)
+    
+ggplot(data = test) +
+  geom_col(aes(x = doy, y = Herring, fill = as.factor(year))) +
+  facet_wrap(~general_location, ncol = 1) +
+  theme_bw()
+
+
+```
+
+

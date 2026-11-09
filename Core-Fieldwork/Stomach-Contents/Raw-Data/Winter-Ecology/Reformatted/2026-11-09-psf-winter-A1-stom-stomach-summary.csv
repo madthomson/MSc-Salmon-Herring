@@ -1,0 +1,189 @@
+"","analysis_date","event_type","general_location","year","month","day","date","lavage_bag","all_prey","analyst","salmon_sample_type","mass_g_Invertebrate","mass_g_UnidFish","mass_g_Herring","mass_g_LarvalFish","mass_g_FishScales","mass_g_Anchovy","mass_g_Myctophid","mass_g_Sandlance"
+"1","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",75,"PinnotheridCrab, CrabMegalops, CrabZoea, Amphipods","MC","Stomach Contents ONLY",0.0437,NA,NA,NA,NA,NA,NA,NA
+"2","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",76,"Nematodes, Amphipods, CrabMegalops","MC","Stomach Contents ONLY",0.0447,NA,NA,NA,NA,NA,NA,NA
+"3","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",77,"UnidFish, Amphipods, CopepodParasite","MC","Stomach Contents ONLY",0.0228,0.0145,NA,NA,NA,NA,NA,NA
+"4","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",78,"Euphausiids, Hyperia, CrabMegalops, CrabMegalops, CrabZoea, Herring, Amphipods","MC","Stomach Contents ONLY",0.309,NA,0.0587,NA,NA,NA,NA,NA
+"5","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",79,"Herring, CrabMegalops, Herring, Hyperia","MC","Stomach Contents ONLY",0.0664,NA,3.612,NA,NA,NA,NA,NA
+"6","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",80,"Herring","MC","Stomach Contents ONLY",NA,NA,2.0137,NA,NA,NA,NA,NA
+"7","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",81,"Herring, Herring, Herring","MC","Stomach Contents ONLY",NA,NA,7.6433,NA,NA,NA,NA,NA
+"8","2025-09-08","Microtroll","SGI",2025,9,5,"2025-09-05",82,"Herring","MC","Stomach Contents ONLY",NA,NA,0.2854,NA,NA,NA,NA,NA
+"9","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",1,"Shrimp","MC","Stomach Contents ONLY",0.0145,NA,NA,NA,NA,NA,NA,NA
+"10","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",2,"CrabMegalops","MC","Stomach Contents ONLY",0.0017,NA,NA,NA,NA,NA,NA,NA
+"11","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",3,"UnidFish","MC","Stomach Contents ONLY",NA,0.0065,NA,NA,NA,NA,NA,NA
+"12","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",4,"Herring","MC","Stomach Contents ONLY",NA,NA,0.0065,NA,NA,NA,NA,NA
+"13","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",5,"UnidMaterial","MC","Stomach Contents ONLY",1e-04,NA,NA,NA,NA,NA,NA,NA
+"14","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",6,"UnidFish, Plant, LarvalFish, UnidMaterial","MC","Stomach Contents ONLY",0.0187,0.2127,NA,0.0119,NA,NA,NA,NA
+"15","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",7,"Plant, UnidFish","MC","Stomach Contents ONLY",0.0016,0.0074,NA,NA,NA,NA,NA,NA
+"16","2025-09-10","Microtroll","Nanaimo",2025,9,9,"2025-09-09",8,"Hyperia, PinnotheridCrab, CrabZoea, CrabMegalops, CrabMegalops, CirripedeExuvium, Amphipods, UnidFish","MC","Stomach Contents ONLY",0.0241,0.0968,NA,NA,NA,NA,NA,NA
+"17","2025-09-10","Microtroll","SGI",2025,9,5,"2025-09-05",51,"CrabMegalops, CrabZoea, CrabMegalops, CrabMegalops, CrabZoea, Crustaceans, PinnotheridCrab","MC","Stomach Contents ONLY",0.044,NA,NA,NA,NA,NA,NA,NA
+"18","2025-09-10","Microtroll","SGI",2025,9,5,"2025-09-05",62,"Herring, Herring","MC","Stomach Contents ONLY",NA,NA,1.3377,NA,NA,NA,NA,NA
+"19","2025-09-10","Microtroll","SGI",2025,9,5,"2025-09-05",68,"Hyperia, CrabMegalops, CrabMegalops, Amphipods","MC","Stomach Contents ONLY",0.0387,NA,NA,NA,NA,NA,NA,NA
+"20","2025-09-10","Microtroll","SGI",2025,9,5,"2025-09-05",72,"Herring, CrabMegalops, Hyperia","MC","Stomach Contents ONLY",0.006,NA,4.2851,NA,NA,NA,NA,NA
+"21","2025-09-10","Microtroll","SGI",2025,9,5,"2025-09-05",83,"Herring, Herring","MC","Stomach Contents ONLY",NA,NA,4.9758,NA,NA,NA,NA,NA
+"22","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",49,"CrabMegalops","MC","Stomach Contents ONLY",0.0036,NA,NA,NA,NA,NA,NA,NA
+"23","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",52,"UnidFish","MC","Stomach Contents ONLY",NA,0.1394,NA,NA,NA,NA,NA,NA
+"24","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",53,"UnidFish","MC","Stomach Contents ONLY",NA,0.0169,NA,NA,NA,NA,NA,NA
+"25","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",54,"Hyperia, UnidFish","MC","Stomach Contents ONLY",0.0178,0.0167,NA,NA,NA,NA,NA,NA
+"26","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",56,"Crustaceans, CirripedeExuvium","MC","Stomach Contents ONLY",0.007,NA,NA,NA,NA,NA,NA,NA
+"27","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",57,"Plant","MC","Stomach Contents ONLY",0.0039,NA,NA,NA,NA,NA,NA,NA
+"28","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",58,"Plant, UnidFish","MC","Stomach Contents ONLY",0.0015,0.003,NA,NA,NA,NA,NA,NA
+"29","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",59,"UnidMaterial","MC","Stomach Contents ONLY",0.001,NA,NA,NA,NA,NA,NA,NA
+"30","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",60,"Plant","MC","Stomach Contents ONLY",0.0018,NA,NA,NA,NA,NA,NA,NA
+"31","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",61,"UnidFish, Plant","MC","Stomach Contents ONLY",0.0019,0.0012,NA,NA,NA,NA,NA,NA
+"32","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",63,"CrabMegalops, Plant","MC","Stomach Contents ONLY",0.0031,NA,NA,NA,NA,NA,NA,NA
+"33","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",64,"UnidFish","MC","Stomach Contents ONLY",NA,0.0039,NA,NA,NA,NA,NA,NA
+"34","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",65,"UnidMaterial","MC","Stomach Contents ONLY",0.0013,NA,NA,NA,NA,NA,NA,NA
+"35","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",66,"Herring","MC","Stomach Contents ONLY",NA,NA,0.0347,NA,NA,NA,NA,NA
+"36","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",67,"UnidFish","MC","Stomach Contents ONLY",NA,0.0023,NA,NA,NA,NA,NA,NA
+"37","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",69,"Gammarids, CrabMegalops, CrabMegalops, CrabMegalops, Crustaceans","MC","Stomach Contents ONLY",0.0914,NA,NA,NA,NA,NA,NA,NA
+"38","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",70,"Hyperia","MC","Stomach Contents ONLY",0.0076,NA,NA,NA,NA,NA,NA,NA
+"39","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",71,"Hyperia, CrabMegalops, CrabMegalops, CrabMegalops, UnidFish","MC","Stomach Contents ONLY",0.0325,0.006,NA,NA,NA,NA,NA,NA
+"40","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",73,"Herring, Hyperia","MC","Stomach Contents ONLY",0.0048,NA,0.0679,NA,NA,NA,NA,NA
+"41","2025-09-11","Microtroll","SGI",2025,9,5,"2025-09-05",74,"Herring","MC","Stomach Contents ONLY",NA,NA,0.0743,NA,NA,NA,NA,NA
+"42","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",16,"Herring","MC","Stomach Contents ONLY",NA,NA,0.3938,NA,NA,NA,NA,NA
+"43","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",18,"Crustaceans, CrabMegalops, CrabMegalops, Plant","MC","Stomach Contents ONLY",0.0958,NA,NA,NA,NA,NA,NA,NA
+"44","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",19,"Polychaetes","MC","Stomach Contents ONLY",0.2469,NA,NA,NA,NA,NA,NA,NA
+"45","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",20,"CrabMegalops, CrabMegalops, CrabMegalops, CrabZoea, UnidFish, Crustaceans","MC","Stomach Contents ONLY",0.3006,0.0018,NA,NA,NA,NA,NA,NA
+"46","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",25,"Themisto, Hyperia, Euphausiids","MC","Stomach Contents ONLY",0.0837,NA,NA,NA,NA,NA,NA,NA
+"47","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",26,"Thysanoessa, Euphausiids","MC","Stomach Contents ONLY",0.1078,NA,NA,NA,NA,NA,NA,NA
+"48","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",27,"Thysanoessa","MC","Stomach Contents ONLY",0.0334,NA,NA,NA,NA,NA,NA,NA
+"49","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",28,"Plant","MC","Stomach Contents ONLY",6e-04,NA,NA,NA,NA,NA,NA,NA
+"50","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",29,"UnidMaterial","MC","Stomach Contents ONLY",0.0039,NA,NA,NA,NA,NA,NA,NA
+"51","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",30,"UnidMaterial","MC","Stomach Contents ONLY",0.0047,NA,NA,NA,NA,NA,NA,NA
+"52","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",31,"Herring, Plant","MC","Stomach Contents ONLY",0.0034,NA,0.1025,NA,NA,NA,NA,NA
+"53","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",32,"UnidMaterial","MC","Stomach Contents ONLY",0.0037,NA,NA,NA,NA,NA,NA,NA
+"54","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",46,"Herring","MC","Stomach Contents ONLY",NA,NA,0.1025,NA,NA,NA,NA,NA
+"55","2025-09-15","Microtroll","SGI",2025,9,12,"2025-09-12",47,"Hyperia, UnidFish","MC","Stomach Contents ONLY",0.0523,0.0702,NA,NA,NA,NA,NA,NA
+"56","2025-09-16","Microtroll","SGI",2025,9,12,"2025-09-12",14,"CrabMegalops, CrabMegalops, CrabZoea, CrabZoea, CrabMegalops, Crustaceans","MC","Stomach Contents ONLY",0.043,NA,NA,NA,NA,NA,NA,NA
+"57","2025-09-16","Microtroll","SGI",2025,9,12,"2025-09-12",15,"UnidFish","MC","Stomach Contents ONLY",NA,0.0011,NA,NA,NA,NA,NA,NA
+"58","2025-09-16","Microtroll","SGI",2025,9,12,"2025-09-12",17,"UnidFish","MC","Stomach Contents ONLY",NA,0.086,NA,NA,NA,NA,NA,NA
+"59","2025-09-16","Microtroll","SGI",2025,9,12,"2025-09-12",21,"Amphipods, UnidFish","MC","Stomach Contents ONLY",1e-04,0.0024,NA,NA,NA,NA,NA,NA
+"60","2025-09-16","Microtroll","SGI",2025,9,12,"2025-09-12",22,"UnidFish","MC","Stomach Contents ONLY",NA,0.0149,NA,NA,NA,NA,NA,NA
+"61","2025-09-16","Microtroll","SGI",2025,9,12,"2025-09-12",23,"UnidFish","MC","Stomach Contents ONLY",NA,0.0307,NA,NA,NA,NA,NA,NA
+"62","2025-10-28","Microtroll","Campbell River",2025,9,17,"2025-09-17",42,"Herring","LC","Stomach Contents ONLY",NA,NA,0.3091,NA,NA,NA,NA,NA
+"63","2025-10-28","Microtroll","Campbell River",2025,9,17,"2025-09-17",43,"UnidFish","LC","Stomach Contents ONLY",NA,0.0075,NA,NA,NA,NA,NA,NA
+"64","2025-10-28","Microtroll","Campbell River",2025,9,17,"2025-09-17",46,"Hyperoche, Plant, Crustaceans","LC","Stomach Contents ONLY",0.0057,NA,NA,NA,NA,NA,NA,NA
+"65","2025-10-28","Microtroll","Campbell River",2025,9,17,"2025-09-17",47,"Herring","LC","Stomach Contents ONLY",NA,NA,0.0597,NA,NA,NA,NA,NA
+"66","2025-10-28","Microtroll","Campbell River",2025,9,17,"2025-09-17",48,"Insects, Hyperia, Amphipods, UnidFish, UnidMaterial","LC","Stomach Contents ONLY",0.0471,0.0139,NA,NA,NA,NA,NA,NA
+"67","2025-10-28","Microtroll","Campbell River",2025,9,17,"2025-09-17",49,"CopepodParasite, UnidFish","LC","Stomach Contents ONLY",5e-04,0.0065,NA,NA,NA,NA,NA,NA
+"68","2025-10-28","Microtroll","Campbell River",2025,9,17,"2025-09-17",51,"UnidFish","LC","Stomach Contents ONLY",NA,0.013,NA,NA,NA,NA,NA,NA
+"69","2025-10-30","Microtroll","Campbell River",2025,9,17,"2025-09-17",40,"Hyperia, Crustaceans","MC","Stomach Contents ONLY",0.0717,NA,NA,NA,NA,NA,NA,NA
+"70","2025-10-30","Microtroll","Campbell River",2025,9,17,"2025-09-17",41,"Hyperia, Crustaceans","MC","Stomach Contents ONLY",0.149,NA,NA,NA,NA,NA,NA,NA
+"71","2025-10-30","Microtroll","Campbell River",2025,9,17,"2025-09-17",50,"Gammarids, Amphipods, Crustaceans","MC","Stomach Contents ONLY",0.0611,NA,NA,NA,NA,NA,NA,NA
+"72","2025-11-24","Microtroll","SGI",2025,9,24,"2025-09-24",67,"Plant, UnidFish","LC","Stomach Contents ONLY",7e-04,0.0131,NA,NA,NA,NA,NA,NA
+"73","2025-11-24","Microtroll","SGI",2025,9,24,"2025-09-24",95,"SquidLarva, UnidMaterial","LC","Stomach Contents ONLY",0.084,NA,NA,NA,NA,NA,NA,NA
+"74","2025-11-24","Microtroll","SGI",2025,9,24,"2025-09-24",98,"UnidFish","LC","Stomach Contents ONLY",NA,0.1577,NA,NA,NA,NA,NA,NA
+"75","2025-11-24","Microtroll","SGI",2025,9,24,"2025-09-24",101,"Hyperiids, Herring, UnidFish","LC","Stomach Contents ONLY",0.0089,0.0094,0.0071,NA,NA,NA,NA,NA
+"76","2025-11-24","Microtroll","SGI",2025,9,24,"2025-09-24",105,"Themisto, UnidFish, UnidMaterial","LC","Stomach Contents ONLY",0.0103,0.0021,NA,NA,NA,NA,NA,NA
+"77","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",62,"Hyperia, Crustaceans","LC","Stomach Contents ONLY",0.0329,NA,NA,NA,NA,NA,NA,NA
+"78","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",64,"Plant, CopepodParasite, UnidMaterial","LC","Stomach Contents ONLY",0.0062,NA,NA,NA,NA,NA,NA,NA
+"79","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",70,"Insects, Herring, UnidFish","LC","Stomach Contents ONLY",8e-04,0.0139,0.0076,NA,NA,NA,NA,NA
+"80","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",71,"CirripedeExuvium, Themisto, Hyperiids, Amphipods, UnidFish","LC","Stomach Contents ONLY",0.017,0.0062,NA,NA,NA,NA,NA,NA
+"81","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",72,"Plant, UnidMaterial","LC","Stomach Contents ONLY",0.0351,NA,NA,NA,NA,NA,NA,NA
+"82","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",74,"FishScales, CirripedeExuvium, Hyperoche, UnidMaterial","LC","Stomach Contents ONLY",0.0048,NA,NA,NA,9e-04,NA,NA,NA
+"83","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",89,"Herring, FishScales, UnidFish","LC","Stomach Contents ONLY",NA,0.0358,0.0027,NA,6e-04,NA,NA,NA
+"84","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",91,"Herring, UnidFish","LC","Stomach Contents ONLY",NA,0.1703,6.3067,NA,NA,NA,NA,NA
+"85","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",93,"Herring, UnidFish, Hyperia","LC","Stomach Contents ONLY",0.0115,0.1647,4.5208,NA,NA,NA,NA,NA
+"86","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",96,"Herring, UnidFish","LC","Stomach Contents ONLY",NA,0.1009,5.7956,NA,NA,NA,NA,NA
+"87","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",97,"Herring, UnidFish","LC","Stomach Contents ONLY",NA,0.1403,4.4766,NA,NA,NA,NA,NA
+"88","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",99,"Herring, Nematodes, UnidFish","LC","Stomach Contents ONLY",0.0048,0.0999,2.2233,NA,NA,NA,NA,NA
+"89","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",100,"Herring, Shrimp, Hyperia, UnidFish","LC","Stomach Contents ONLY",0.0374,0.3547,2.9849,NA,NA,NA,NA,NA
+"90","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",102,"Herring, Hyperia, UnidFish","LC","Stomach Contents ONLY",0.0084,0.2106,3.4049,NA,NA,NA,NA,NA
+"91","2025-11-25","Microtroll","SGI",2025,9,24,"2025-09-24",103,"Herring, UnidFish","LC","Stomach Contents ONLY",NA,0.1657,3.8384,NA,NA,NA,NA,NA
+"92","2025-11-27","Microtroll","Comox",2025,9,4,"2025-09-04",37,"CrabMegalops, Plant, LarvalFish, Decapods, Hyperoche, Amphipods, Crustaceans, UnidMaterial","LC","Stomach Contents ONLY",0.0167,NA,NA,0.0046,NA,NA,NA,NA
+"93","2025-11-27","Microtroll","Comox",2025,9,4,"2025-09-04",55,"UnidFish, CopepodParasite, Crustaceans","MC","Stomach Contents ONLY",0.0103,0.0089,NA,NA,NA,NA,NA,NA
+"94","2025-11-27","Microtroll","Comox",2025,9,4,"2025-09-04",57,"CirripedeExuvium, Hyperiids, Amphipods, Hyperoche, CrabZoea, CrabMegalops, CrabMegalops, Decapods","LC","Stomach Contents ONLY",0.111,NA,NA,NA,NA,NA,NA,NA
+"95","2025-11-27","Microtroll","Comox",2025,9,4,"2025-09-04",58,"CrabMegalops, CrabZoea, CrabMegalops, CopepodParasite, CirripedeExuvium, Hyperia, Hyperoche, Amphipods, Crustaceans","LC","Stomach Contents ONLY",0.0371,NA,NA,NA,NA,NA,NA,NA
+"96","2025-11-27","Microtroll","Comox",2025,9,4,"2025-09-04",62,"Insects, Insects, CrabMegalops, CrabMegalops, Crustaceans","MC","Stomach Contents ONLY",0.0655,NA,NA,NA,NA,NA,NA,NA
+"97","2025-11-27","Microtroll","Comox",2025,9,4,"2025-09-04",68,"Insects, CrabMegalops, Crustaceans, CrabZoea","LC","Stomach Contents ONLY",0.0394,NA,NA,NA,NA,NA,NA,NA
+"98","2025-11-27","Microtroll","Comox",2025,9,4,"2025-09-04",69,"Hyperoche, Hyperia, Crustaceans","LC","Stomach Contents ONLY",0.0495,NA,NA,NA,NA,NA,NA,NA
+"99","2025-11-27","Microtroll","SGI",2025,9,24,"2025-09-24",63,"Herring, UnidFish","LC","Stomach Contents ONLY",NA,0.0623,0.5999,NA,NA,NA,NA,NA
+"100","2025-11-27","Microtroll","SGI",2025,9,24,"2025-09-24",65,"Insects, CrabMegalops, Polychaetes, Hyperia, Plant, UnidMaterial","LC","Stomach Contents ONLY",0.0485,NA,NA,NA,NA,NA,NA,NA
+"101","2025-11-27","Microtroll","SGI",2025,9,24,"2025-09-24",73,"Hyperia, Amphipods, SquidLarva, FishScales, UnidMaterial","LC","Stomach Contents ONLY",0.3839,NA,NA,NA,2e-04,NA,NA,NA
+"102","2025-11-27","Microtroll","SGI",2025,9,24,"2025-09-24",94,"Herring, Herring, UnidFish","LC","Stomach Contents ONLY",NA,0.0901,9.3149,NA,NA,NA,NA,NA
+"103","2025-11-28","Microtroll","Comox",2025,9,4,"2025-09-04",51,"Polychaetes, Nematodes, UnidMaterial","MC","Stomach Contents ONLY",0.599,NA,NA,NA,NA,NA,NA,NA
+"104","2025-11-28","Microtroll","Comox",2025,9,4,"2025-09-04",61,"Crustaceans, CrabMegalops, CrabZoea, CrabZoea, CrabMegalops, UnidFish","MC","Stomach Contents ONLY",0.0341,0.0147,NA,NA,NA,NA,NA,NA
+"105","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",41,"CrabMegalops, Herring, UnidFish","MT","Stomach Contents ONLY",0.0024,0.057,0.0022,NA,NA,NA,NA,NA
+"106","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",52,"CirripedeExuvium, Insects, CrabMegalops, Hyperoche, UnidMaterial","MT","Stomach Contents ONLY",0.0546,NA,NA,NA,NA,NA,NA,NA
+"107","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",53,"PinnotheridCrab, Gammarids, CrabMegalops, Amphipods, Hyperoche, Crustaceans","MT","Stomach Contents ONLY",0.027,NA,NA,NA,NA,NA,NA,NA
+"108","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",54,"Herring, UnidFish, CrabMegalops, Hyperiids","MT","Stomach Contents ONLY",0.0085,0.3118,0.8814,NA,NA,NA,NA,NA
+"109","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",56,"Hyperia, Amphipods, Insects, Herring","MT","Stomach Contents ONLY",0.0292,NA,0.0134,NA,NA,NA,NA,NA
+"110","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",59,"Hyperiids, Hyperoche, UnidMaterial","MT","Stomach Contents ONLY",0.0108,NA,NA,NA,NA,NA,NA,NA
+"111","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",63,"Herring, CrabZoea, UnidMaterial","MT","Stomach Contents ONLY",0.0084,NA,1.0131,NA,NA,NA,NA,NA
+"112","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",64,"UnidFish, Crustaceans","MT","Stomach Contents ONLY",2e-04,0.0273,NA,NA,NA,NA,NA,NA
+"113","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",66,"CrabZoea, CrabMegalops, Hyperiids, CephalopodLarva, Shrimp, Hyperoche, Themisto, UnidFish, UnidFish, UnidMaterial","MT","Stomach Contents ONLY",0.0319,0.3167,NA,NA,NA,NA,NA,NA
+"114","2025-12-01","Microtroll","Comox",2025,9,4,"2025-09-04",100,"UnidFish, Herring","MT","Stomach Contents ONLY",NA,0.1169,0.0718,NA,NA,NA,NA,NA
+"115","2026-02-13","Microtroll","Powell River",2025,9,2,"2025-09-02",17,"Primno, Euphausia, Euphausiids","LC",NA,3.7536,NA,NA,NA,NA,NA,NA,NA
+"116","2026-02-13","Microtroll","Powell River",2025,9,2,"2025-09-02",18,"Euphausia, Euphausiids, Thysanoessa, Primno, Nematodes, CrabMegalops, Anchovy, UnidFish","LC",NA,5.6142,0.5798,NA,NA,NA,1.0732,NA,NA
+"117","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",70,"Euphausia, CopepodParasite, FishScales, Crustaceans, UnidMaterial","LC",NA,0.1758,NA,NA,NA,0.0023,NA,NA,NA
+"118","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",71,"Primno, Cyphocaris, Hyperoche, Themisto, CrabMegalops, Gammarids, Amphipods, Thysanoessa, Euphausia, Euphausiids, Molluscs, CalanoidCopepod","LC",NA,0.4305,NA,NA,NA,NA,NA,NA,NA
+"119","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",72,"Themisto, Euphausia, Euphausiids","LC",NA,0.2125,NA,NA,NA,NA,NA,NA,NA
+"120","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",73,"UnidFish, Euphausiids, UnidMaterial","LC",NA,0.0252,0.0127,NA,NA,NA,NA,NA,NA
+"121","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",75,"Euphausiids, Hyperoche, UnidMaterial","LC",NA,0.3703,NA,NA,NA,NA,NA,NA,NA
+"122","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",76,"Cyphocaris, Nematodes, Amphipods, Crustaceans","LC",NA,0.2194,NA,NA,NA,NA,NA,NA,NA
+"123","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",77,"Cyphocaris, Euphausia, Euphausiids, Hyperoche, Amphipods, UnidMaterial, Crustaceans","LC",NA,0.2599,NA,NA,NA,NA,NA,NA,NA
+"124","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",90,"Amphipods, Polychaetes, FishScales, UnidMaterial, Crustaceans","LC",NA,0.0367,NA,NA,NA,3e-04,NA,NA,NA
+"125","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",113,"Hyperoche, Hyperiids, FishScales, Euphausiids","LC",NA,0.1669,NA,NA,NA,5e-04,NA,NA,NA
+"126","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",115,"Hyperoche, Euphausiids, UnidMaterial, Crustaceans","LC",NA,0.0272,NA,NA,NA,NA,NA,NA,NA
+"127","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",116,"Hyperoche, Themisto, CrabZoea, Euphausiids, UnidFish, Plant, UnidMaterial","LC",NA,0.0288,0.0037,NA,NA,NA,NA,NA,NA
+"128","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",117,"Hyperoche, Primno, CrabMegalops, Euphausiids, Hyperiids, UnidMaterial","LC",NA,0.0362,NA,NA,NA,NA,NA,NA,NA
+"129","2026-02-16","Microtroll","Powell River",2025,9,16,"2025-09-16",119,"Primno, CrabZoea, Crustaceans","LC",NA,0.0385,NA,NA,NA,NA,NA,NA,NA
+"130","2026-02-17","Microtroll","Powell River",2025,9,16,"2025-09-16",67,"Primno, CephalopodLarva, Euphausia, Thysanoessa, Euphausiids, Hyperia, Themisto, Amphipods, Crustaceans","LC",NA,1.0117,NA,NA,NA,NA,NA,NA,NA
+"131","2026-02-17","Microtroll","Powell River",2025,9,16,"2025-09-16",114,"Euphausia, Euphausiids, Primno, UnidMaterial","LC",NA,0.1229,NA,NA,NA,NA,NA,NA,NA
+"132","2026-02-17","Microtroll","Powell River",2025,9,16,"2025-09-16",118,"Primno, Cyphocaris, Euphausia, Amphipods, Euphausiids, Crustaceans, UnidMaterial","LC",NA,0.1101,NA,NA,NA,NA,NA,NA,NA
+"133","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",19,"Herring","LC",NA,NA,NA,0.5796,NA,NA,NA,NA,NA
+"134","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",20,"UnidMaterial","LC",NA,0.0036,NA,NA,NA,NA,NA,NA,NA
+"135","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",21,"Herring, CopepodParasite","LC",NA,4e-04,NA,1.2349,NA,NA,NA,NA,NA
+"136","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",22,"UnidFish","LC",NA,NA,0.0161,NA,NA,NA,NA,NA,NA
+"137","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",24,"Hyperoche, CrabMegalops, UnidMaterial","LC",NA,0.0098,NA,NA,NA,NA,NA,NA,NA
+"138","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",25,"Herring","LC",NA,NA,NA,0.8668,NA,NA,NA,NA,NA
+"139","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",26,"Thysanoessa, Euphausia, Primno, Hyperoche, Hyperia, Euphausiids, UnidFish, UnidMaterial, Nematodes","LC",NA,0.5357,0.0278,NA,NA,NA,NA,NA,NA
+"140","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",27,"Euphausia, Thysanoessa, Euphausiids, Thysanoessa, Herring, UnidFish","LC",NA,0.5554,0.1832,4.8343,NA,NA,NA,NA,NA
+"141","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",28,"Primno, Themisto, Hyperoche, Hyperia, Euphausia, Thysanoessa, Euphausiids, CrabMegalops","LC",NA,0.86227,NA,NA,NA,NA,NA,NA,NA
+"142","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",29,"Primno, Thysanoessa, Euphausia, Amphipods, Euphausiids","LC",NA,0.3552,NA,NA,NA,NA,NA,NA,NA
+"143","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",30,"Gammarids, Themisto, Primno, Hyperia, Caprellids, OctopusLarva, SquidLarva, CirripedeExuvium, Euphausiids, UnidMaterial","LC",NA,0.6135,NA,NA,NA,NA,NA,NA,NA
+"144","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",31,"Primno, Themisto, Gammarids, Hyperoche, Euphausiids","LC",NA,0.2236,NA,NA,NA,NA,NA,NA,NA
+"145","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",32,"Thysanoessa, Primno, Euphausiids, UnidFish","LC",NA,0.0697,0.0231,NA,NA,NA,NA,NA,NA
+"146","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",102,"UnidMaterial","LC",NA,0.0066,NA,NA,NA,NA,NA,NA,NA
+"147","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",103,"Herring, UnidFish","LC",NA,NA,0.071,2.6341,NA,NA,NA,NA,NA
+"148","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",104,"UnidFish","LC",NA,NA,0.0104,NA,NA,NA,NA,NA,NA
+"149","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",105,"UnidMaterial","LC",NA,0.0109,NA,NA,NA,NA,NA,NA,NA
+"150","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",106,"Themisto, Primno, FishScales, Hyperoche, UnidMaterial","LC",NA,0.0174,NA,NA,NA,7e-04,NA,NA,NA
+"151","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",107,"Herring","LC",NA,NA,NA,0.1179,NA,NA,NA,NA,NA
+"152","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",108,"Herring","LC",NA,NA,NA,0.0311,NA,NA,NA,NA,NA
+"153","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",109,"PinnotheridCrab, PinnotheridCrab, Hyperia, Gammarids, Hyperoche, Themisto, Amphipods, Crustaceans, UnidFish","LC",NA,0.1036,0.0198,NA,NA,NA,NA,NA,NA
+"154","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",110,"UnidFish","LC",NA,NA,0.0372,NA,NA,NA,NA,NA,NA
+"155","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",111,"Plant, UnidMaterial","LC",NA,0.0081,NA,NA,NA,NA,NA,NA,NA
+"156","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",112,"Herring, UnidFish","LC",NA,NA,0.0576,0.016,NA,NA,NA,NA,NA
+"157","2026-02-20","Microtroll","Campbell River",2025,9,3,"2025-09-03",120,"CrabMegalops","LC",NA,0.0132,NA,NA,NA,NA,NA,NA,NA
+"158","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",64,"Hyperia, Euphausia, Insects","LC",NA,0.0416,NA,NA,NA,NA,NA,NA,NA
+"159","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",66,"Themisto, Hyperia, CalanoidCopepod, Primno, Crustaceans","LC",NA,0.7145,NA,NA,NA,NA,NA,NA,NA
+"160","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",67,"Hyperia, Hyperiids, Themisto, Primno","LC",NA,0.7636,NA,NA,NA,NA,NA,NA,NA
+"161","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",68,"Hyperia, Themisto, CalanoidCopepod, Primno","LC",NA,0.6047,NA,NA,NA,NA,NA,NA,NA
+"162","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",69,"Herring, Primno, Primno, Themisto, Hyperia, Euphausia, Thysanoessa, Euphausiids, Herring, UnidMaterial","LC",NA,0.9527,NA,2.8809,NA,NA,NA,NA,NA
+"163","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",70,"Primno, Hyperia, Themisto, Corophids, Hyperiids, UnidMaterial","LC",NA,0.1272,NA,NA,NA,NA,NA,NA,NA
+"164","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",71,"Primno, Hyperia, Plant, Amphipods, UnidMaterial","LC",NA,0.4584,NA,NA,NA,NA,NA,NA,NA
+"165","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",72,"CirripedeExuvium, Hyperia, Hyperia, Primno, Themisto, Amphipods, UnidMaterial","LC",NA,0.2878,NA,NA,NA,NA,NA,NA,NA
+"166","2026-02-24","Microtroll","Campbell River",2025,9,24,"2025-09-24",73,"Themisto, Primno, Hyperia, Amphipods, CalanoidCopepod, Myctophid","LC",NA,0.1551,NA,NA,NA,NA,NA,0.6004,NA
+"167","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",52,"Herring","LC",NA,NA,NA,0.0281,NA,NA,NA,NA,NA
+"168","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",53,"Plant, CrabZoea, CrabZoea, CirripedeExuvium, Crustaceans, UnidFish","LC",NA,0.0211,0.0051,NA,NA,NA,NA,NA,NA
+"169","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",54,"FishScales, Hyperia, UnidMaterial","LC",NA,0.0156,NA,NA,NA,2e-04,NA,NA,NA
+"170","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",55,"LarvalFish, CrabMegalops, CrabZoea, Hyperoche, CrabZoea, CrabMegalops, Shrimp, Decapods, Crustaceans","LC",NA,0.1535,NA,NA,0.0081,NA,NA,NA,NA
+"171","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",56,"Herring","LC",NA,NA,NA,0.3002,NA,NA,NA,NA,NA
+"172","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",57,"Insects, Plant, UnidFish","LC",NA,0.0257,0.0074,NA,NA,NA,NA,NA,NA
+"173","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",58,"Herring, UnidFish","LC",NA,NA,0.0417,0.0239,NA,NA,NA,NA,NA
+"174","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",59,"Hyperoche, Plant, CrabMegalops, CrabZoea, CalanoidCopepod, Amphipods, Crustaceans","LC",NA,0.2159,NA,NA,NA,NA,NA,NA,NA
+"175","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",60,"CirripedeExuvium, Plant, Diptera, CrabMegalops, UnidMaterial, Crustaceans","LC",NA,0.0346,NA,NA,NA,NA,NA,NA,NA
+"176","2026-02-24","Microtroll","Comox",2025,9,18,"2025-09-18",78,"Herring","LC",NA,NA,NA,0.0226,NA,NA,NA,NA,NA
+"177","2026-02-25","Microtroll","Campbell River",2025,9,24,"2025-09-24",61,"Herring, Polychaetes","MC",NA,0.0254,NA,0.0469,NA,NA,NA,NA,NA
+"178","2026-02-25","Microtroll","Campbell River",2025,9,24,"2025-09-24",62,"LarvalFish, LarvalFish, LarvalFish, Polychaetes, CopepodParasite, Hyperia","MC",NA,0.0784,NA,NA,0.112,NA,NA,NA,NA
+"179","2026-02-25","Microtroll","Campbell River",2025,9,24,"2025-09-24",63,"UnidFish, Euphausiids","MC",NA,0.0105,0.0133,NA,NA,NA,NA,NA,NA
+"180","2026-02-25","Microtroll","Campbell River",2025,9,24,"2025-09-24",65,"Herring, Sandlance, Primno, Euphausia, UnidFish","MC",NA,0.0971,0.0892,2.8113,NA,NA,NA,NA,1.4188
+"181","2026-02-25","Microtroll","Campbell River",2025,9,24,"2025-09-24",74,"Primno, Hyperia, Themisto, UnidFish, CalanoidCopepod, CopepodParasite, Pteropods, Amphipods","MC",NA,7e-04,1e-04,NA,NA,NA,NA,NA,NA
+"182","2026-04-24","Purse Seine","Comox",2025,7,18,"2025-07-18",38,"Herring, Herring, Herring","KI",NA,NA,NA,1.2812,NA,NA,NA,NA,NA
+"183","2026-04-24","Purse Seine","Comox",2025,7,18,"2025-07-18",42,"Plant, Herring, Herring","KI",NA,0.0066,NA,1.4283,NA,NA,NA,NA,NA
+"184","2026-04-24","Purse Seine","Comox",2025,7,18,"2025-07-18",43,"Herring, UnidFish, CrabMegalops, CrabMegalops, Decapods, Hyperiids, PinnotheridCrab","KI",NA,0.4233,0.004,2.1039,NA,NA,NA,NA,NA
+"185","2026-04-24","Purse Seine","Comox",2025,7,18,"2025-07-18",45,"Herring, Herring","KI",NA,NA,NA,1.6628,NA,NA,NA,NA,NA
+"186","2026-04-24","Purse Seine","Comox",2025,7,18,"2025-07-18",47,"Hyperia, Hyperoche, Decapods","KI",NA,0.2226,NA,NA,NA,NA,NA,NA,NA
+"187","2026-04-24","Purse Seine","Comox",2025,7,18,"2025-07-18",121,"Herring","KI",NA,NA,NA,0.1839,NA,NA,NA,NA,NA
+"188","2026-04-24","Purse Seine","Comox",2025,7,18,"2025-07-18",123,"Herring","KI",NA,NA,NA,1.117,NA,NA,NA,NA,NA
