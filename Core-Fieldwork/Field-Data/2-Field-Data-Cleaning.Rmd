@@ -5,6 +5,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 #load packages
 library(tidyverse)
@@ -20,33 +21,45 @@ library(openxlsx)
 
 This document contains code for cleaning and cross-referencing data entered in the data collection app Epicollect5 as part of Activity 1 of PSF's Salmon-Herring interactions project. The Epicolllect5 form *PSF Marine Science Fish Sampling* contains (1) Activity 1 field data and (2) non-salmonid stable isotope and otolith processing data. Epicollect5 creates several data sheets per form that can be cross-referenced with each other using auto-generated ID columns.
 
+#Summary of Cleaning Steps
+
+As of 2026-11-09 the field data cleaning is complete except (1) the gill biopsy data has not been cross-referenced with the actual vials and (2) new genetics results may become available that alter species identifications. Plus unsure about merging with the stomach data  !!!!!!!
+
+Completed steps:
+- All fishing site names are correctly assigned (checked using mapping - separate code)
+- All fishing coordinates are reasonable (checked using mapping - separate code)
+- PIT scanner data is correctly entered (cross-referenced with scanner downloads - see email thread with Brahm)
+- Scale data correctly entered (cross-referenced with physical books)
+- Fin clip data correctly entered (cross-referenced with vials)
+- Temperature and salinity are withing reasonable ranges
+- Microtroll gear information seems reasonable
+- Species ID and fork length checked using field photos
+
+
+
 #Load data
 
 ```{r}
 
-#date and region to generate QC summary for when Knit
-QC.date <- "2025-08-14"
-QC.region <- "Nanaimo"
+# setwd("~/GitHub/MSc-Salmon-Herring")
 
 #date data was downloaded from Epicollect
 read_date <- "2026-04-18"
 # read_date <- Sys.Date()
 
-setwd("C:/Users/madeleinethomson/OneDrive/Herring-SRIF/Epicollect-Field-Data")
+day <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/form-1__day-information.csv"),sep=",", na.strings=c("","NA"))
 
-day <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-marine-science-fish-sampling-csv-", read_date, "/form-1__day-information.csv"),sep=",", na.strings=c("","NA"))
+set <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/form-2__fishing-set.csv"),sep=",", na.strings=c("","NA"))
 
-set <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-marine-science-fish-sampling-csv-", read_date, "/form-2__fishing-set.csv"),sep=",", na.strings=c("","NA"))
+mt <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-1__microtroll-fish-data.csv"),sep=",", na.strings=c("","NA"))
 
-mt <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-marine-science-fish-sampling-csv-", read_date, "/branch-1__microtroll-fish-data.csv"),sep=",", na.strings=c("","NA"))
+bs <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-2__beach-seine-salmonid-data.csv"),sep=",", na.strings=c("","NA"))
 
-bs <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-marine-science-fish-sampling-csv-", read_date, "/branch-2__beach-seine-salmonid-data.csv"),sep=",", na.strings=c("","NA"))
+ps <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-3__purse-seine-fish-data.csv"),sep=",", na.strings=c("","NA"))
 
-ps <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-marine-science-fish-sampling-csv-", read_date, "/branch-3__purse-seine-fish-data.csv"),sep=",", na.strings=c("","NA"))
+mort <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-4__retained-lethal-samples.csv"), sep=",", na.strings=c("","NA"))
 
-mort <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-marine-science-fish-sampling-csv-", read_date, "/branch-4__retained-lethal-samples.csv"), sep=",", na.strings=c("","NA"))
-
-isotope <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-marine-science-fish-sampling-csv-", read_date, "/branch-5__stable-isotope-samples.csv"), sep=",", na.strings=c("","NA"))
+isotope <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-5__stable-isotope-samples.csv"), sep=",", na.strings=c("","NA"))
 
 ```
 
@@ -927,8 +940,8 @@ nrow(test)
 #several species ID's appeared incorrect upon review of the 
 #fish photos taken in the field
 
-setwd("C:/Users/madeleinethomson/OneDrive/Herring-SRIF")
-photo_species <- read.xlsx("./Fish-Morphometrics/QC_species_check/0HerrSRIF_species_check_QC_2026-09-01.xlsx")
+# setwd("C:/Users/madeleinethomson/OneDrive/Herring-SRIF")
+photo_species <- read.xlsx("./Core-Fieldwork/Field-Data/Raw-Data/Fish-Morphometrics/0HerrSRIF_species_check_QC_2026-09-01.xlsx")
 
 unique(photo_species$confidence)
 
@@ -961,7 +974,7 @@ combined_df <- combined_df %>%
 #unfortunately a lot of the GSI failed, but we can use what we have
 
 #load genetics data
-gsi <- read.csv("./Salmon-Scales/GSI/GSI-Results/Merged-A1-Scale-Results/Merged-A1-Scale-Results-2026-09-08.csv")
+gsi <- read.csv("./Core-Fieldwork/Field-Data/Raw-Data/GSI-Results/Merged/PSF-A1-Core-Fieldwork-GSI-Results-2026-11-09.csv")
 
 #look at which species were observed
 unique(gsi$species)
@@ -1146,7 +1159,7 @@ mort_data_print <- mort_data %>%
   arrange(general_location) %>%
   arrange(species) 
 
-write.csv(mort_data_print, file = paste0(Sys.Date(), "-psf-herring-A1-field-lethal-samples", ".csv"))
+write.csv(mort_data_print, file = paste0("./Core-Fieldwork/Field-Data/", Sys.Date(), "-psf-herring-A1-field-lethal-samples", ".csv"))
 
 ```
 
@@ -1174,7 +1187,7 @@ combined_df <- combined_df %>% relocate(set_comments, .after = last_col())
 #Save main catch data
 
 ```{r}
-write.csv(combined_df, file = paste0(Sys.Date(), "-psf-herring-A1-field-full-catch-data", ".csv"))
+write.csv(combined_df, file = paste0("./Core-Fieldwork/Field-Data/", Sys.Date(), "-psf-herring-A1-field-full-catch-data", ".csv"))
 
 # combined_df_2024 <- combined_df %>% filter(year == 2024)
 # 
@@ -1316,7 +1329,7 @@ isotope_combined <- isotope_combined %>%
                    sample_code_Base, sample_code_Num, sample_code_Num2, qc_check,
                    accuracy_set_start_gps))
 
-write.csv(isotope_combined, file = paste0(Sys.Date(), "-psf-herring-A1-field-isotope-net-sampled", ".csv"))
+write.csv(isotope_combined, file = paste0("./Core-Fieldwork/Field-Data/", Sys.Date(), "-psf-herring-A1-field-isotope-net-sampled", ".csv"))
 
 ```
 #QC - check that all morts are processed 
@@ -1339,7 +1352,7 @@ summary <- full_join(summary1, summary2) %>%
 
 test <- summary %>% filter(species == "Herring_Unkn_Size")
 
-write.csv(summary, paste0(Sys.Date(), "-field-isotope-data-differences.csv"),
+write.csv(summary, paste0("./Core-Fieldwork/Field-Data/", Sys.Date(), "-field-isotope-data-differences.csv"),
           row.names = FALSE)
 
 ```
@@ -1376,207 +1389,4 @@ sort(unique(combined_df$lavage_bag))
 test <- combined_df %>% filter(lavage_bag > 120)
 
 ```
-
-
-
-
-
-
-
-### Code to Generate Daily QC Summary
-
-</div> <!-- Hidden section ends -->
-
-```{r, echo=FALSE}
-combined_df_select <- combined_df %>%
-  filter(date == QC.date & general_location == QC.region)
-
-mort_select <- mort_data %>%
-  filter(date == QC.date & general_location == QC.region)
-
-
-set_select <- combined_df_select %>%
-  group_by(ec5_uuid_set) %>%
-  slice(1)
-```
-
-### **`r unique(set_select$date)` - `r unique(set_select$general_location)` (`r unique(set_select$event_type)`)** 
-
-### Day Information
-
-**team:** `r unique(set_select$team)`  
-**vessels:** `r unique(set_select$vessels)`  
-**Crew Members:** `r unique(set_select$crew)`  
-**PIT Scanner:** `r unique(set_select$pit_scanner)`  
-**Comments:** `r unique(set_select$day_comments)` 
-
-### General Set Information
-
-```{r echo=FALSE, results='asis'}
-    options(knitr.kable.NA = '')
-```
-
-```{r, echo=FALSE}
-library(knitr)
-
-combined_df_select %>% 
-  group_by(ec5_uuid_set) %>%
-  mutate(Chinook_Sampled = sum(species == "Chinook"),
-         Coho_Sampled = sum(species == "Coho")) %>%
-  slice(1) %>%
-  ungroup %>% 
-  dplyr::select(set_location, set_start_time, surface_temp_c, salinity_ppt,
-                Chinook_Sampled, Coho_Sampled, set_comments) %>%
-  arrange(set_start_time) %>%
-  kable()
-
-```
-
-```{r, echo=FALSE}
-fig_height <- 2*length(unique(set_select$ec5_uuid_set))
-```
-
-### Fish Bycatch
-
-```{r, echo=FALSE, fig.height=fig_height, fig.width = 10}
-# #Columns with bycatch counts - should start with Salmonids and end with UNID2
-# colnames(set_select[c(37:45, 47:50, 52:73, 77)])
-# 
-# set_select_long <- set_select %>%
-#   pivot_longer(cols = c(37:45, 47:50, 52:73, 77), names_to = "Taxa", values_to = "Count") %>%
-#   mutate(set_id = paste0("(", set_start_time, ") ", set_location)) %>%
-#   # arrange(set_id) %>%
-#   filter(!is.na(Count)) %>%
-#   filter(Count != 0) %>%
-#   mutate(Taxa_Cat = case_when(
-#     Taxa %in% c("Salmonids", "Coho", "Chinook", "Chum",
-#                 "Pink", "Sockeye", "Cutthroat_Trout", "DV_Trout",
-#                 "Steelhead_Trout") ~ "1Salmonids",
-#     Taxa %in% c("Herring_Unkn_Size", "Herring_SM_90mm", "Herring_L_90mm",
-#                 "Northern_Anchovy", "Pacific_SandLance", "Smelt") ~ "2ForageFish",
-#     TRUE ~ "3Other")) %>%
-#   arrange(factor(Taxa_Cat, levels = c("1Salmonids", "2ForageFish", "3Other"))) %>%
-#   mutate(Taxa = factor(Taxa, levels = unique(Taxa[order(Taxa_Cat)])))
-# 
-#   # mutate(csum = rev(cumsum(rev(Count))), 
-#   #        pos = Count/2 + lead(csum, 1),
-#   #        pos = if_else(is.na(pos), Count/2, pos))
-#   
-# 
-# # library(ggrepel)
-# # ggplot(set_select_long, aes(x = 1, y = Count, fill = Taxa)) +
-# #   geom_col(width = 1, color = 1) +
-# #   coord_polar(theta = "y") +
-# #   facet_wrap(~set_id, scales = "free") +
-# #   geom_label(aes(y = pos, label = paste0(Count, " ", Taxa)), show.legend = FALSE, size = 1.8) +
-# #   theme_void() 
-# 
-# p <- ggplot(data = set_select_long, aes(x = Count, y = Taxa, fill = Taxa_Cat)) +
-#   facet_wrap(~set_id, scales = "free", ncol = 1) +
-#   geom_col(position = "dodge") +
-#   geom_text(aes(label = paste0(" ", Count)), hjust = 0) +
-#   theme_classic() +
-#   theme(legend.position = "none") +
-#   scale_y_discrete(limits = rev) +
-#   geom_vline(xintercept = 0) +
-#   scale_x_continuous(expand = expansion(mult = c(0, .1))) +
-#   scale_fill_manual(values = c("1Salmonids" = "#1f78b4", 
-#                                "2ForageFish" = "#42c61b", 
-#                                "3Other" = "#b2b2b2")) +
-#   theme(strip.background =element_rect(fill="white"),
-#         text = element_text(size = 14)) +
-#   theme(plot.background = element_rect(fill = "white")) +
-#   ylab("")
-# 
-# p.text <- ggplot(data = set_select_long) + 
-#   facet_wrap(~set_id, ncol = 1) +
-#   geom_text(aes(label = paste0("Catch_Est_Salm: ", Catch_Est_Salm)), 
-#             size = 3.5, color = "grey", x = 5, y = 9) +
-#   geom_text(aes(label = paste0("Catch_Est_Forage: ", Catch_Est_Forage)), 
-#             size = 3.5, color = "grey", x = 5, y = 6) +
-#   geom_text(aes(label = paste0("Catch_Est_Other: ", Catch_Est_Other)), 
-#             size = 3.5, color = "grey", x = 5, y = 3) +
-#   theme_void() +
-#   xlim(0, 10) + ylim(0, 12) +
-#   theme(strip.text.x = element_blank())
-# 
-# library(patchwork)
-# p + p.text + plot_layout(widths = c(3, 1))
-```
-
-### Lethal Samples
-
-```{r, echo = FALSE}
-# kable(mort_select %>% 
-#         ungroup() %>% 
-#         dplyr::select(set_start_time, species, number, life_stage, size_herring, Comments) %>%
-#         arrange(set_start_time)) %>%
-#   kable_styling(font_size = 10)
-  
-```
-
-### Fish Fork Length
-
-```{r, echo = FALSE, fig.width=4, fig.height=4}
-combined_df_select %>%
-  filter(!is.na(ec5_branch_uuid)) %>%
-  ggplot(aes(x = species, y = fork_length_mm)) +
-  geom_boxplot(width = 0.5, fill = "#1f78b4") +
-  geom_point() +
-  theme_classic() 
-  
-```
-
-
-### Fish Biosample
-
-
-```{r, echo=FALSE}
-summary.table <- combined_df_select %>% 
-  ungroup() %>% 
-  arrange(fish_created_at) %>% 
-  filter(!is.na(ec5_branch_uuid)) %>%
-  dplyr::select(set_start_time, species, fish_depth_ft, lure_color, 
-                clip_status, fork_length_mm, scale_book, 
-                scale_no, gastric_lavage, lavage_bag, pit_tray, tag_status, 
-                tag_id_short, biopsy_vial, fin_vial, sign_symp, 
-                pre_injury, handling_injury, fish_comments)
-
-kable(summary.table, align = "c") %>%
-  kable_styling(font_size = 10) %>%
-  column_spec(9, extra_css = "white-space: nowrap;")
-
-```
-
-```{r}
-test <- mort_data %>%
-  filter(species == "Chinook") %>%
-  # filter(event_type == "Beach Seine") %>%
-  group_by(ec5_uuid_day, event_type, date, general_location, team) %>%
-  summarise(count = sum(number)) %>%
-  arrange(date)
-
-test <- test %>%
-  mutate(year = lubridate::year(date)) %>%
-  ungroup() %>%
-  group_by(year, event_type) %>%
-  summarise(count = sum(count))
-
-mort_data$species
-
-test <- combined_df %>%
-  filter(!is.na(biopsy_vial)) %>%
-  group_by(date) %>%
-  summarise(count = n())
-
-test <- combined_df %>%
-  filter(general_location == "Campbell River" & event_type == "Microtroll") %>%
-  filter(species %in% c("Chinook", "Coho")) %>%
-  group_by(general_location, set_location, date, species) %>%
-  summarise(count = n())
-
-
-```
-
-
 

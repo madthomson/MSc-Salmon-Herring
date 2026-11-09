@@ -1,0 +1,198 @@
+"","project","date","team","event_type","general_location","set_location","lat_Mean_GPS","long_Mean_GPS","surface_temp_c","year","month","qc_check","accuracy_set_start_gps","species","number","comments"
+"1","Herring SRIF",2024-05-30,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Cruiseship Terminal",50.040305,-125.245722,10.8,NA,NA,NA,NA,"Chinook",3,"Failed to regain equilibrium following sampling. "
+"2","Herring SRIF",2024-06-25,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.030314,-125.244124,12.5,NA,NA,NA,NA,"Chinook",1,NA
+"3","Herring SRIF",2024-06-25,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Heritage Centre",50.019519,-125.236086,13.5,NA,NA,NA,NA,"Chinook",1,NA
+"4","Herring SRIF",2024-07-11,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Heritage Centre",50.019638,-125.236111,12.9,NA,NA,NA,NA,"Chinook",1,NA
+"5","Herring SRIF",2024-08-22,"A-Tlegay","Microtroll","Campbell River","Campbell River - Salmon Point",49.901223,-125.133262,15.3,NA,NA,NA,NA,"Chinook",1,"Chinook did not recover, was retained, must have lost blood while on line. MT - changed number retained from 13 to 1"
+"6","Herring SRIF",2024-08-22,"A-Tlegay","Microtroll","Campbell River","Campbell River - Salmon Point",49.875803,-125.1011915,15.3,NA,NA,NA,NA,"Chinook",1,NA
+"7","Herring SRIF",2024-08-22,"A-Tlegay","Microtroll","Campbell River","Campbell River - Shelter Point",49.9390355,-125.163444,15.3,NA,NA,NA,NA,"Chinook",1,NA
+"8","Herring SRIF",2024-09-05,"A-Tlegay","Microtroll","Campbell River","Campbell River - Salmon Point",49.869539,-125.091066,13.5,NA,NA,NA,NA,"Chinook",1,NA
+"9","Herring SRIF",2024-09-05,"A-Tlegay","Microtroll","Campbell River","Campbell River - Salmon Point",49.875531,-125.098383,13.5,NA,NA,NA,NA,"Chinook",1,NA
+"10","Herring SRIF",2025-05-07,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.030493,-125.244057,10.5,NA,NA,NA,NA,"Chinook",8,"2 of these were sampled in the field"
+"11","Herring SRIF",2025-05-27,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.030386,-125.244123,10.8,NA,NA,NA,NA,"Chinook",2,"Have not been processed"
+"12","Herring SRIF",2025-06-24,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Cruiseship Terminal",50.040305,-125.245523,14.3,NA,NA,NA,NA,"Chinook",1,NA
+"13","Herring SRIF",2025-06-24,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Cruiseship Terminal",50.040305,-125.245523,14.3,NA,NA,NA,NA,"Chinook",1,NA
+"14","Herring SRIF",2025-06-24,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Cruiseship Terminal",50.040305,-125.245523,14.3,NA,NA,NA,NA,"Chinook",1,NA
+"15","Herring SRIF",2025-06-24,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.032942,-125.243139,15.9,NA,NA,NA,NA,"Chinook",1,"Salmon died unintentionally after sampling it is 94mm (there are two from this set that are 94 but check is it has a fin clip or not when processing to know which one it is) - MC"
+"16","Herring SRIF",2025-09-24,"A-Tlegay","Microtroll","Campbell River","Campbell River - Cruiseship Terminal",50.0412585,-125.2411345,NA,NA,NA,NA,NA,"Chinook",1,NA
+"17","Herring SRIF",2025-09-24,"A-Tlegay","Microtroll","Campbell River","Campbell River - Cruiseship Terminal",50.0338475,-125.2357985,NA,NA,NA,NA,NA,"Chinook",1,NA
+"18","Herring SRIF",2024-06-21,"UVic/PSF","Purse Seine","Comox","Comox - Little Mexico",49.657254,-124.916837,18.3,NA,NA,NA,NA,"Chinook",1,NA
+"19","Herring SRIF",2024-07-18,"UVic/PSF","Microtroll","Comox","Comox - Union Bay",49.5951725,-124.877669,20.8,NA,NA,NA,NA,"Chinook",1,NA
+"20","Herring SRIF",2024-08-06,"UVic/PSF","Microtroll","Comox","Comox - Longbeak Point",49.614696,-124.856206,20,NA,NA,NA,NA,"Chinook",1,"Fish from 50 ft last set . Died post sampling."
+"21","Herring SRIF",2024-08-06,"UVic/PSF","Microtroll","Comox","Comox - Longbeak Point",49.6088965,-124.8495905,20,NA,NA,NA,NA,"Chinook",1,NA
+"22","Herring SRIF",2024-08-21,"UVic/PSF","Microtroll","Comox","Comox - Little Mexico",49.6550275,-124.9204885,18,NA,NA,NA,NA,"Chinook",1,NA
+"23","Herring SRIF",2024-09-06,"UVic/PSF","Microtroll","Comox","Comox - Little Mexico",49.6554455,-124.9219565,16.8,NA,NA,NA,NA,"Chinook",1,NA
+"24","Herring SRIF",2024-09-24,"UVic/PSF","Microtroll","Comox","Comox - Little Mexico",49.6551065,-124.920277,15,NA,NA,NA,NA,"Chinook",1,NA
+"25","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Comox","Comox - Longbeak Point",49.608731,-124.844596,19.4,NA,NA,NA,NA,"Chinook",4,"All died post-sampling, yes individually sampled"
+"26","Herring SRIF",2025-06-23,"UVic/PSF","Beach Seine","Comox","Comox - Longbeak Point",49.608906,-124.844795,18,NA,NA,NA,NA,"Chinook",1,NA
+"27","Herring SRIF",2025-06-23,"UVic/PSF","Beach Seine","Comox","Comox - Longbeak Point",49.608885,-124.844883,18,NA,NA,NA,NA,"Chinook",1,NA
+"28","Herring SRIF",2025-07-03,"UVic/PSF","Purse Seine","Comox","Comox - Union Bay",49.585361,-124.881882,19.3,NA,NA,NA,NA,"Chinook",1,"Real sad sampled fish"
+"29","Herring SRIF",2025-07-31,"UVic/PSF","Microtroll","Comox","Comox - Longbeak Point",49.609504,-124.8541035,21,NA,NA,NA,NA,"Chinook",1,NA
+"30","Herring SRIF",2025-08-20,"UVic/PSF","Microtroll","Comox","Comox - Little Mexico",49.655071,-124.908455,15.3,NA,NA,NA,NA,"Chinook",1,NA
+"31","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164569,-123.895124,16.6,NA,NA,NA,NA,"Chinook",1,NA
+"32","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164569,-123.895124,16.6,NA,NA,NA,NA,"Chinook",1,NA
+"33","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164569,-123.895124,16.6,NA,NA,NA,NA,"Chinook",1,NA
+"34","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164569,-123.895124,16.6,NA,NA,NA,NA,"Chinook",1,NA
+"35","Herring SRIF",2025-06-27,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Saysutshun (Newcastle Island)",49.19494,-123.947252,14.7,NA,NA,NA,NA,"Chinook",1,"Died post-sampling. Individual can be identified by scanning PIT tag"
+"36","Herring SRIF",2025-07-23,"UVic/PSF","Microtroll","Nanaimo","Nanaimo - Harmac",49.145996,-123.83319,17.3,NA,NA,NA,NA,"Chinook",1,NA
+"37","Herring SRIF",2025-08-07,"UVic/PSF","Microtroll","Nanaimo","Nanaimo - Harmac",49.1442925,-123.8231495,16.3,NA,NA,NA,NA,"Chinook",1,NA
+"38","Herring SRIF",2024-05-31,"Cowichan","Beach Seine","SGI","Cowichan - 2A",48.759905,-123.612639,11.5,NA,NA,NA,NA,"Chinook",1,NA
+"39","Herring SRIF",2024-06-12,"Cowichan","Beach Seine","SGI","Cowichan - 2A",48.759958,-123.612455,13.4,NA,NA,NA,NA,"Chinook",1,"Jumper"
+"40","Herring SRIF",2024-06-27,"Cowichan","Purse Seine","SGI","Cowichan - Paradise Marina",48.734045,-123.584589,13,NA,NA,NA,NA,"Chinook",1,NA
+"41","Herring SRIF",2024-07-22,"Cowichan","Purse Seine","SGI","Cowichan - Separation Point",48.743948,-123.572993,16.7,NA,NA,NA,NA,"Chinook",2,"Chinook from this set found on deployment of next set seems unlikely to be from second set. The found fish has scoliosis  duplicate  fish that was processed"
+"42","Herring SRIF",2024-07-22,"Cowichan","Purse Seine","SGI","Cowichan - Separation Point",48.743948,-123.572993,16.7,NA,NA,NA,NA,"Chinook",1,NA
+"43","Herring SRIF",2024-08-09,"Cowichan","Microtroll","SGI","Southern Gulf Flex - Booth Bay",48.869833,-123.560837,19.7,NA,NA,NA,NA,"Chinook",1,NA
+"44","Herring SRIF",2024-08-09,"Cowichan","Microtroll","SGI","Southern Gulf Flex - Booth Bay",48.869837,-123.5616,19.7,NA,NA,NA,NA,"Chinook",1,NA
+"45","Herring SRIF",2024-08-28,"UVic/PSF","Microtroll","SGI","Ladysmith - Miami Islet",49.0317,-123.698608,15,NA,NA,NA,NA,"Chinook",1,NA
+"46","Herring SRIF",2024-09-13,"UVic/PSF","Microtroll","SGI","Ladysmith - Yellow Point",49.042448,-123.7448295,17.7,NA,NA,NA,NA,"Chinook",1,NA
+"47","Herring SRIF",2024-09-27,"UVic/PSF","Microtroll","SGI","Southern Gulf Flex - Maple Bay North",48.8338485,-123.58741,13.3,NA,NA,NA,NA,"Chinook",1,NA
+"48","Herring SRIF",2025-05-06,"UVic/PSF","Beach Seine","SGI","Cowichan - 2A",48.759769,-123.612471,12.7,NA,NA,NA,NA,"Chinook",2,NA
+"49","Herring SRIF",2025-05-20,"Cowichan","Beach Seine","SGI","Cowichan - 2A",48.760053,-123.61275,14.3,NA,NA,NA,NA,"Chinook",1,NA
+"50","Herring SRIF",2025-05-29,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799258,-123.563455,13.4,NA,NA,NA,NA,"Chinook",1,NA
+"51","Herring SRIF",2025-06-11,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799332,-123.563545,18.8,NA,NA,NA,NA,"Chinook",3,"Not sampled had to rush back for personal event"
+"52","Herring SRIF",2025-07-11,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.756737,-123.608191,15.7,NA,NA,NA,NA,"Chinook",1,NA
+"53","Herring SRIF",2025-07-21,"Cowichan","Microtroll","SGI","Cowichan - Separation Point",48.7436635,-123.5732135,18,NA,NA,NA,NA,"Chinook",1,NA
+"54","Herring SRIF",2025-09-05,"Cowichan","Microtroll","SGI","Southern Gulf Flex - Maple Bay North",48.833323,-123.586589,18.4,NA,NA,NA,NA,"Chinook",1,NA
+"55","Herring SRIF",2025-09-05,"Cowichan","Microtroll","SGI","Southern Gulf Flex - Maple Bay North",48.833323,-123.586589,18.4,NA,NA,NA,NA,"Chinook",1,NA
+"56","Herring SRIF",2025-09-12,"Cowichan","Microtroll","SGI","Southern Gulf Flex - Satellite Channel South/Sidney",48.696109,-123.477234,14.5,NA,NA,NA,NA,"Chinook",1,NA
+"57","Herring SRIF",2025-05-07,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.030493,-125.244057,10.5,NA,NA,NA,NA,"Chum",1,NA
+"58","Herring SRIF",2025-06-19,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Middle Point",50.09389,-125.314037,10.7,NA,NA,NA,NA,"Chum",7,NA
+"59","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Hidden Harbour",50.007186,-125.227192,10.7,NA,NA,NA,NA,"Chum",1,NA
+"60","Herring SRIF",2024-07-05,"UVic/PSF","Purse Seine","Comox","Comox - Little Mexico",49.656722,-124.916424,19,NA,NA,NA,NA,"Chum",1,NA
+"61","Herring SRIF",2025-05-14,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660939,-124.926582,13.3,NA,NA,NA,NA,"Chum",18,NA
+"62","Herring SRIF",2025-05-14,"UVic/PSF","Beach Seine","Comox","Comox - Longbeak Point",49.608686,-124.844897,13.8,NA,NA,NA,NA,"Chum",1,NA
+"63","Herring SRIF",2025-05-21,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164769,-123.89519,11.9,NA,NA,NA,NA,"Chum",1,NA
+"64","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164569,-123.895124,16.6,NA,NA,NA,NA,"Chum",2,NA
+"65","Herring SRIF",2025-07-10,"UVic/PSF","Purse Seine","Nanaimo","Nanaimo - Decanso Bay",49.175747,-123.870572,18,NA,NA,NA,NA,"Chum",4,"In the folds"
+"66","Herring SRIF",2024-05-29,"Tla'amin","Beach Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",49.883167,-124.650655,13.2,NA,NA,NA,NA,"Chum",4,NA
+"67","Herring SRIF",2024-07-22,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.757785,-123.611639,17.6,NA,NA,NA,NA,"Chum",1,"Jellyfish in die nry likely stung a bunch"
+"68","Herring SRIF",2025-05-06,"UVic/PSF","Beach Seine","SGI","Cowichan - 2A",48.759769,-123.612471,12.7,NA,NA,NA,NA,"Chum",6,NA
+"69","Herring SRIF",2025-05-07,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799201,-123.563598,13.5,NA,NA,NA,NA,"Chum",5,NA
+"70","Herring SRIF",2025-05-27,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Heritage Centre",50.019691,-125.235839,10.4,NA,NA,NA,NA,"Cods",5,NA
+"71","Herring SRIF",2025-05-27,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.030386,-125.244123,10.8,NA,NA,NA,NA,"Coho",1,"Had not been processed -MC"
+"72","Herring SRIF",2025-08-07,"A-Tlegay","Microtroll","Campbell River","Campbell River - Shelter Point",49.940036,-125.165525,18,NA,NA,NA,NA,"Coho",1,NA
+"73","Herring SRIF",2025-06-02,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660821,-124.926436,14.4,NA,NA,NA,NA,"Coho",1,NA
+"74","Herring SRIF",2025-07-23,"UVic/PSF","Microtroll","Nanaimo","Nanaimo - Protection & Newcastle Island (Outside)",49.184338,-123.9097845,17.3,NA,NA,NA,NA,"Coho",1,NA
+"75","Herring SRIF",2024-07-10,"Tla'amin","Purse Seine","Powell River","Powell River - Emmonds",49.93476,-124.697867,18.5,NA,NA,NA,NA,"Coho",1,NA
+"76","Herring SRIF",2025-07-02,"Tla'amin","Purse Seine","Powell River","Powell River - Slay Bay/Iron Mines",49.960296,-124.745705,18.2,NA,NA,NA,NA,"Coho",1,NA
+"77","Herring SRIF",2025-05-07,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Heritage Centre",50.01957,-125.236073,10.5,NA,NA,NA,NA,"Flatfishes",1,NA
+"78","Herring SRIF",2024-06-25,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Cruiseship Terminal",50.040324,-125.245723,12,NA,NA,NA,NA,"Herring_Unkn_Size",1,"MT - species not initially recorded, filled in based on what was in the bag"
+"79","Herring SRIF",2025-06-19,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Middle Point",50.089554,-125.305429,10.9,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"80","Herring SRIF",2025-06-19,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Middle Point",50.079203,-125.299485,10.9,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"81","Herring SRIF",2025-06-19,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Hidden Harbour",50.010213,-125.22937,11.6,NA,NA,NA,NA,"Herring_Unkn_Size",2,NA
+"82","Herring SRIF",2025-06-24,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Cruiseship Terminal",50.040305,-125.245523,14.3,NA,NA,NA,NA,"Herring_Unkn_Size",1,"Crushed in net, accidental mortality "
+"83","Herring SRIF",2025-07-04,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Middle Point",50.088219,-125.304225,11,NA,NA,NA,NA,"Herring_Unkn_Size",8,NA
+"84","Herring SRIF",2025-07-04,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Hidden Harbour",50.007514,-125.228976,11.3,NA,NA,NA,NA,"Herring_Unkn_Size",5,NA
+"85","Herring SRIF",2025-07-04,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Middle Point",50.088021,-125.303643,11,NA,NA,NA,NA,"Herring_Unkn_Size",2,NA
+"86","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Gowlland Island North",50.080157,-125.247362,10.8,NA,NA,NA,NA,"Herring_Unkn_Size",12,NA
+"87","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Gowlland Island North",50.080157,-125.247362,10.8,NA,NA,NA,NA,"Herring_Unkn_Size",1,"Thrown up by salmon - found partially digested in bucket "
+"88","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Hidden Harbour",50.007186,-125.227192,10.7,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"89","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Hidden Harbour",50.007186,-125.227192,10.7,NA,NA,NA,NA,"Herring_Unkn_Size",2,NA
+"90","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Quathiaski Cove",50.044111,-125.217364,11.2,NA,NA,NA,NA,"Herring_Unkn_Size",12,"Thousands of sandlance caught in net, they were accidental mort in this event"
+"91","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Hidden Harbour",50.009438,-125.228916,11.4,NA,NA,NA,NA,"Herring_Unkn_Size",11,NA
+"92","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Hidden Harbour",50.009438,-125.228916,11.4,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"93","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Middle Point",50.078757,-125.299319,10.8,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"94","Herring SRIF",2025-09-24,"A-Tlegay","Other","Campbell River","Campbell River",50.107683,-125.300567,NA,2025,9,NA,4,"Herring_Unkn_Size",49,NA
+"95","Herring SRIF",2024-06-21,"UVic/PSF","Purse Seine","Comox","Comox - Union Bay",49.584924,-124.88217,19.3,NA,NA,NA,NA,"Herring_Unkn_Size",1,"MT - not originally in the data, but there was a herring in the lab with this date, union bay, 14:30 (maybe someone misheard 14:13?)"
+"96","Herring SRIF",2024-06-21,"UVic/PSF","Other","Comox","COMOX - LIL MEXICO",NA,NA,NA,2024,6,NA,NA,"Herring_Unkn_Size",1,"Found with the A1 forage fish morts but there is no matching fishing entry so I made a new one. "
+"97","Herring SRIF",2024-06-26,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660781,-124.9264,16.8,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"98","Herring SRIF",2024-07-05,"UVic/PSF","Purse Seine","Comox","Comox - Little Mexico",49.65935,-124.925605,19,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"99","Herring SRIF",2024-08-02,"UVic/PSF","Purse Seine","Comox","Comox - Little Mexico",49.658929,-124.925512,18.1,NA,NA,NA,NA,"Herring_Unkn_Size",15,NA
+"100","Herring SRIF",2024-08-02,"UVic/PSF","Purse Seine","Comox","Comox - Little Mexico",49.658929,-124.925512,18.1,NA,NA,NA,NA,"Herring_Unkn_Size",15,"For thymine"
+"101","Herring SRIF",2024-10-11,"UVic/PSF","Other","Comox","Hornby",49.613767,-124.745217,NA,2024,10,NA,4,"Herring_Unkn_Size",45,NA
+"102","Herring SRIF",2025-05-14,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660939,-124.926582,13.3,NA,NA,NA,NA,"Herring_Unkn_Size",1,"Regurgitated by unknown fish. Not alive"
+"103","Herring SRIF",2025-05-22,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.661025,-124.926492,13.8,NA,NA,NA,NA,"Herring_Unkn_Size",2,"MT - no taxa recorded in the data, assumed herring, double check when processing morts"
+"104","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Comox","Comox - Longbeak Point",49.608731,-124.844596,19.4,NA,NA,NA,NA,"Herring_Unkn_Size",7,NA
+"105","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Comox","Comox - Union Bay",49.585465,-124.883472,18.8,NA,NA,NA,NA,"Herring_Unkn_Size",3,NA
+"106","Herring SRIF",2025-07-11,"UVic/PSF","Beach Seine","Comox","Comox - Longbeak Point",49.608834,-124.845131,18.6,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"107","Herring SRIF",2025-07-18,"UVic/PSF","Purse Seine","Comox","Comox - Longbeak Point",49.609927,-124.849364,20,NA,NA,NA,NA,"Herring_Unkn_Size",37,NA
+"108","Herring SRIF",2025-07-18,"UVic/PSF","Purse Seine","Comox","Comox - Union Bay",49.58541,-124.882125,21.7,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"109","Herring SRIF",2025-07-18,"UVic/PSF","Purse Seine","Comox","Comox - Little Mexico",49.659127,-124.925474,21.5,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"110","Herring SRIF",2025-05-21,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Saysutshun (Newcastle Island)",49.194876,-123.94719,13.8,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"111","Herring SRIF",2025-05-30,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Saysutshun (Newcastle Island)",49.195197,-123.946973,16.1,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"112","Herring SRIF",2025-05-30,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Saysutshun (Newcastle Island)",49.195197,-123.946973,16.1,NA,NA,NA,NA,"Herring_Unkn_Size",1,"Prob barfed up"
+"113","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164569,-123.895124,16.6,NA,NA,NA,NA,"Herring_Unkn_Size",3,NA
+"114","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Jack Point",49.164569,-123.895124,16.6,NA,NA,NA,NA,"Herring_Unkn_Size",11,NA
+"115","Herring SRIF",2025-06-27,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Saysutshun (Newcastle Island)",49.19494,-123.947252,14.7,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"116","Herring SRIF",2025-07-10,"UVic/PSF","Purse Seine","Nanaimo","Nanaimo - Decanso Bay",49.175947,-123.870917,17.8,NA,NA,NA,NA,"Herring_Unkn_Size",1,"Retained"
+"117","Herring SRIF",2025-07-10,"UVic/PSF","Purse Seine","Nanaimo","Nanaimo - Saysutshun (Newcastle Island)",49.197707,-123.948917,18.5,NA,NA,NA,NA,"Herring_Unkn_Size",22,"Numby might be off a smidge"
+"118","Herring SRIF",2024-05-29,"Tla'amin","Beach Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",49.883176,-124.650657,13.2,NA,NA,NA,NA,"Herring_Unkn_Size",8,NA
+"119","Herring SRIF",2024-06-19,"Tla'amin","Purse Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",49.884381,-124.652148,NA,NA,NA,NA,NA,"Herring_Unkn_Size",29,"Sampling the school"
+"120","Herring SRIF",2024-06-19,"Tla'amin","Purse Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",49.88573,-124.651013,NA,NA,NA,NA,NA,"Herring_Unkn_Size",1,"Same fish recorded"
+"121","Herring SRIF",2024-07-10,"Tla'amin","Purse Seine","Powell River","Powell River - Atrevida",49.914295,-124.644204,18.5,NA,NA,NA,NA,"Herring_Unkn_Size",44,"10 for Rhonda, 34 for us"
+"122","Herring SRIF",2024-07-31,"Tla'amin","Purse Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",49.883062,-124.652432,18.2,NA,NA,NA,NA,"Herring_Unkn_Size",1,"MT - species not initially recorded, filled in based on what was in the bag"
+"123","Herring SRIF",2025-06-12,"Tla'amin","Beach Seine","Powell River","Powell River - Emmonds",49.936236,-124.695571,11,NA,NA,NA,NA,"Herring_Unkn_Size",4,NA
+"124","Herring SRIF",2025-06-12,"Tla'amin","Beach Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",49.885199,-124.650994,14.8,NA,NA,NA,NA,"Herring_Unkn_Size",12,NA
+"125","Herring SRIF",2025-06-12,"Tla'amin","Beach Seine","Powell River","Powell River - Emmonds",49.936234,-124.695316,11,NA,NA,NA,NA,"Herring_Unkn_Size",4,NA
+"126","Herring SRIF",2025-06-16,"Tla'amin","Purse Seine","Powell River","Powell River - Atrevida",49.916278,-124.651672,15.3,NA,NA,NA,NA,"Herring_Unkn_Size",3,NA
+"127","Herring SRIF",2025-06-16,"Tla'amin","Purse Seine","Powell River","Powell River - Atrevida",49.914083,-124.64572,15.3,NA,NA,NA,NA,"Herring_Unkn_Size",2,NA
+"128","Herring SRIF",2025-06-16,"Tla'amin","Purse Seine","Powell River","Powell River - Slay Bay/Iron Mines",49.960386,-124.741589,15.8,NA,NA,NA,NA,"Herring_Unkn_Size",NA,NA
+"129","Herring SRIF",2025-07-02,"Tla'amin","Purse Seine","Powell River","Powell River - Slay Bay/Iron Mines",49.960296,-124.745705,18.2,NA,NA,NA,NA,"Herring_Unkn_Size",2,NA
+"130","Herring SRIF",2025-07-02,"Tla'amin","Purse Seine","Powell River","Powell River - Slay Bay/Iron Mines",49.960296,-124.745705,18.2,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"131","Herring SRIF",2025-07-09,"Tla'amin","Beach Seine","Powell River","Powell River - Emmonds",49.93617,-124.695201,20.4,NA,NA,NA,NA,"Herring_Unkn_Size",5,NA
+"132","Herring SRIF",2024-07-04,"Cowichan","Beach Seine","SGI","Cowichan - Genoa Tree",48.756829,-123.590324,15.6,NA,NA,NA,NA,"Herring_Unkn_Size",2,NA
+"133","Herring SRIF",2024-07-12,"Cowichan","Purse Seine","SGI","Cowichan - Separation Point",48.744641,-123.574631,16.8,NA,NA,NA,NA,"Herring_Unkn_Size",20,"Retained about 10 for RR and 10 for us"
+"134","Herring SRIF",2024-07-12,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.759126,-123.612692,17.1,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"135","Herring SRIF",2024-07-12,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.757232,-123.60969,16.2,NA,NA,NA,NA,"Herring_Unkn_Size",12,"Maybe from previous set but seems unlikely"
+"136","Herring SRIF",2024-07-12,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.759821,-123.613763,16.5,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"137","Herring SRIF",2024-07-12,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.759821,-123.613763,16.5,NA,NA,NA,NA,"Herring_Unkn_Size",16,NA
+"138","Herring SRIF",2024-07-12,"Cowichan","Other","SGI","Cowichan - Dungeness Marina",NA,NA,NA,2024,7,NA,NA,"Herring_Unkn_Size",1,NA
+"139","Herring SRIF",2024-07-15,"UVic/PSF","Purse Seine","SGI","Southern Gulf Flex - Octopus Point",48.799315,-123.562285,20.1,NA,NA,NA,NA,"Herring_Unkn_Size",40,"In two bags one 9f 35 and one of 5"
+"140","Herring SRIF",2024-07-22,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.758455,-123.612223,16.9,NA,NA,NA,NA,"Herring_Unkn_Size",15,NA
+"141","Herring SRIF",2024-07-22,"Cowichan","Purse Seine","SGI","Cowichan - Separation Point",48.744636,-123.576535,16.7,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"142","Herring SRIF",2024-07-22,"Cowichan","Purse Seine","SGI","Cowichan - Separation Point",48.744636,-123.576535,16.7,NA,NA,NA,NA,"Herring_Unkn_Size",11,NA
+"143","Herring SRIF",2025-05-06,"UVic/PSF","Beach Seine","SGI","Cowichan - 2A",48.759769,-123.612471,12.7,NA,NA,NA,NA,"Herring_Unkn_Size",9,"Age 1 herring"
+"144","Herring SRIF",2025-05-06,"UVic/PSF","Beach Seine","SGI","Cowichan - 2A",48.759904,-123.61269,12.7,NA,NA,NA,NA,"Herring_Unkn_Size",1,"Year 0 herring! Note: Tim Kulchyski said there was a herring spawn on Senanus Island this past spring."
+"145","Herring SRIF",2025-05-06,"UVic/PSF","Beach Seine","SGI","Cowichan - 2A",48.759904,-123.61269,12.7,NA,NA,NA,NA,"Herring_Unkn_Size",2,NA
+"146","Herring SRIF",2025-05-07,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799185,-123.563574,13.5,NA,NA,NA,NA,"Herring_Unkn_Size",3,NA
+"147","Herring SRIF",2025-05-20,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.79912,-123.563246,11.3,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"148","Herring SRIF",2025-05-20,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799122,-123.56319,11.3,NA,NA,NA,NA,"Herring_Unkn_Size",4,NA
+"149","Herring SRIF",2025-05-20,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799122,-123.56319,11.3,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"150","Herring SRIF",2025-05-20,"Cowichan","Beach Seine","SGI","Cowichan - 2A",48.760053,-123.61275,14.3,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"151","Herring SRIF",2025-05-29,"Cowichan","Beach Seine","SGI","Cowichan - 2A",48.759908,-123.612669,16.2,NA,NA,NA,NA,"Herring_Unkn_Size",4,NA
+"152","Herring SRIF",2025-05-29,"Cowichan","Beach Seine","SGI","Cowichan - 2A",48.759908,-123.612669,16.2,NA,NA,NA,NA,"Herring_Unkn_Size",10,NA
+"153","Herring SRIF",2025-05-29,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799258,-123.563455,13.4,NA,NA,NA,NA,"Herring_Unkn_Size",3,NA
+"154","Herring SRIF",2025-06-12,"Cowichan","Purse Seine","SGI","Southern Gulf Flex - Patty's Point",48.808685,-123.587364,15.4,NA,NA,NA,NA,"Herring_Unkn_Size",9,NA
+"155","Herring SRIF",2025-06-12,"Cowichan","Purse Seine","SGI","Southern Gulf Flex - Octopus Point",48.799688,-123.562478,15.8,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"156","Herring SRIF",2025-07-11,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.75875,-123.612231,15.9,NA,NA,NA,NA,"Herring_Unkn_Size",2,"Retained, one of them looking a bit thrashed"
+"157","Herring SRIF",2025-07-22,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.758818,-123.613074,18.1,NA,NA,NA,NA,"Herring_Unkn_Size",1,NA
+"158","Herring SRIF",2024-08-02,"UVic/PSF","Purse Seine","Comox","Comox - Union Bay",49.586313,-124.881817,19,NA,NA,NA,NA,"Northern_Anchovy",12,"Some for us some for stable isotopes,could be other species but unlikely"
+"159","Herring SRIF",2025-07-18,"UVic/PSF","Purse Seine","Comox","Comox - Longbeak Point",49.609927,-124.849364,20,NA,NA,NA,NA,"Northern_Anchovy",1,NA
+"160","Herring SRIF",2025-05-30,"UVic/PSF","Beach Seine","Nanaimo","Nanaimo - Saysutshun (Newcastle Island)",49.195197,-123.946973,16.1,NA,NA,NA,NA,"Northern_Anchovy",4,"afternoon set"
+"161","Herring SRIF",2025-05-27,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Heritage Centre",50.019691,-125.235839,10.4,NA,NA,NA,NA,"Pacific_SandLance",8,"2 adults, 6 juvenile (one of the 6 maybe larval)"
+"162","Herring SRIF",2025-06-03,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Heritage Centre",50.019541,-125.236121,11.4,NA,NA,NA,NA,"Pacific_SandLance",1,NA
+"163","Herring SRIF",2025-06-24,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.032942,-125.243139,15.9,NA,NA,NA,NA,"Pacific_SandLance",5,"euthanized for retention "
+"164","Herring SRIF",2025-07-16,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Quathiaski Cove",50.044111,-125.217364,11.2,NA,NA,NA,NA,"Pacific_SandLance",22,"Mass mortality event, SO many caught in purse seine"
+"165","Herring SRIF",2024-07-05,"UVic/PSF","Purse Seine","Comox","Comox - Longbeak Point",49.607185,-124.842476,18.5,NA,NA,NA,NA,"Pacific_SandLance",16,NA
+"166","Herring SRIF",2024-07-05,"UVic/PSF","Purse Seine","Comox","Comox - Longbeak Point",49.607185,-124.842476,18.5,NA,NA,NA,NA,"Pacific_SandLance",5,NA
+"167","Herring SRIF",2025-05-14,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660939,-124.926582,13.3,NA,NA,NA,NA,"Pacific_SandLance",1,"Not a mort.actually retained for isotope"
+"168","Herring SRIF",2025-06-02,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660821,-124.926436,14.4,NA,NA,NA,NA,"Pacific_SandLance",1,NA
+"169","Herring SRIF",2025-06-16,"UVic/PSF","Beach Seine","Comox","Comox - Union Bay",49.585465,-124.883472,18.8,NA,NA,NA,NA,"Pacific_SandLance",5,"Beasts"
+"170","Herring SRIF",2025-06-23,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660749,-124.926484,17.6,NA,NA,NA,NA,"Pacific_SandLance",11,"euthanized for retention "
+"171","Herring SRIF",2025-06-23,"UVic/PSF","Beach Seine","Comox","Comox - Little Mexico",49.660809,-124.926567,17.6,NA,NA,NA,NA,"Pacific_SandLance",1,"accidental mortality - crushed in net? - MC"
+"172","Herring SRIF",2025-07-18,"UVic/PSF","Purse Seine","Comox","Comox - Little Mexico",49.659127,-124.925474,21.5,NA,NA,NA,NA,"Pacific_SandLance",10,NA
+"173","Herring SRIF",2024-05-15,"Tla'amin","Beach Seine","Powell River","Powell River - Emmonds",49.936286,-124.695739,NA,NA,NA,NA,NA,"Pacific_SandLance",2,"YOY"
+"174","Herring SRIF",2024-05-29,"Tla'amin","Beach Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",49.883167,-124.650655,13.2,NA,NA,NA,NA,"Pacific_SandLance",1,NA
+"175","Herring SRIF",2024-05-29,"Tla'amin","Beach Seine","Powell River","Powell River - Atrevida",49.915703,-124.643182,14.3,NA,NA,NA,NA,"Pacific_SandLance",2,NA
+"176","Herring SRIF",2025-06-12,"Tla'amin","Beach Seine","Powell River","Powell River - Emmonds",49.936236,-124.695571,11,NA,NA,NA,NA,"Pacific_SandLance",1,"sad and dead in net, maybe from previous set"
+"177","Herring SRIF",2025-06-12,"Tla'amin","Beach Seine","Powell River","Powell River - Emmonds",49.936234,-124.695316,11,NA,NA,NA,NA,"Pacific_SandLance",10,"Range of sizes"
+"178","Herring SRIF",2025-06-27,"Tla'amin","Beach Seine","Powell River","Powell River - Atrevida",NA,NA,17.8,NA,NA,NA,NA,"Pacific_SandLance",10,"Some below 90mm"
+"179","Herring SRIF",2025-06-27,"Tla'amin","Beach Seine","Powell River","Powell River - Ahgykson Island/Harwood, Rose Spit",NA,NA,17.9,NA,NA,NA,NA,"Pacific_SandLance",10,"Retained"
+"180","Herring SRIF",2024-07-12,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.757133,-123.609647,16.7,NA,NA,NA,NA,"Pacific_SandLance",8,"MT - species not initially recorded, added later based on what was in the bag"
+"181","Herring SRIF",2025-05-06,"UVic/PSF","Beach Seine","SGI","Cowichan - 2A",48.759769,-123.612471,12.7,NA,NA,NA,NA,"Pacific_SandLance",1,NA
+"182","Herring SRIF",2025-05-06,"UVic/PSF","Beach Seine","SGI","Cowichan - 2A",48.759769,-123.612471,12.7,NA,NA,NA,NA,"Pacific_SandLance",1,NA
+"183","Herring SRIF",2024-06-20,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Gowlland Island East",50.071638,-125.226239,12.2,NA,NA,NA,NA,"Pink",1,NA
+"184","Herring SRIF",2024-06-20,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Gowlland Island East",50.071638,-125.226239,12.2,NA,NA,NA,NA,"Pink",1,NA
+"185","Herring SRIF",2024-06-20,"A-Tlegay","Purse Seine","Campbell River","Campbell River - Gowlland Island East",50.071638,-125.226239,12.2,NA,NA,NA,NA,"Pink",1,NA
+"186","Herring SRIF",2025-05-07,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.030493,-125.244057,10.5,NA,NA,NA,NA,"Pink",14,NA
+"187","Herring SRIF",2025-05-07,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.0304,-125.244139,10.5,NA,NA,NA,NA,"Pink",1,NA
+"188","Herring SRIF",2025-05-27,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Ferry Terminal",50.030386,-125.244123,10.8,NA,NA,NA,NA,"Pink",16,NA
+"189","Herring SRIF",2025-05-27,"A-Tlegay","Beach Seine","Campbell River","Campbell River - Heritage Centre",50.019691,-125.235839,10.4,NA,NA,NA,NA,"Pink",2,NA
+"190","Herring SRIF",2024-06-13,"Cowichan","Purse Seine","SGI","Cowichan - Mid Bay Inner",48.74966,-123.609119,13.9,NA,NA,NA,NA,"Pink",1,NA
+"191","Herring SRIF",2024-07-15,"UVic/PSF","Purse Seine","SGI","Southern Gulf Flex - Osbourne Bay",48.850996,-123.599612,22.2,NA,NA,NA,NA,"Pink",1,NA
+"192","Herring SRIF",2024-06-26,"UVic/PSF","Beach Seine","Comox","Comox - Union Bay",49.586136,-124.882898,NA,NA,NA,NA,NA,"Surfperches",1,NA
+"193","Herring SRIF",2025-06-27,"Tla'amin","Beach Seine","Powell River","Powell River - Atrevida",NA,NA,17.8,NA,NA,NA,NA,"Surfperches",2,"Killed in folds of net during seining"
+"194","Herring SRIF",2024-06-27,"Cowichan","Purse Seine","SGI","Cowichan - Separation Point",48.744529,-123.575484,12.6,NA,NA,NA,NA,"ThreeSpine_Stick",1,NA
+"195","Herring SRIF",2025-06-11,"Cowichan","Beach Seine","SGI","Southern Gulf Flex - Octopus Point",48.799332,-123.563545,18.8,NA,NA,NA,NA,"ThreeSpine_Stick",1,NA
+"196","Herring SRIF",2025-06-25,"Cowichan","Beach Seine","SGI","Cowichan - 2A",48.759453,-123.612283,14.4,NA,NA,NA,NA,"ThreeSpine_Stick",1,NA
+"197","Herring SRIF",2025-07-22,"Cowichan","Purse Seine","SGI","Cowichan - 2A",48.758818,-123.613074,18.1,NA,NA,NA,NA,"ThreeSpine_Stick",1,NA

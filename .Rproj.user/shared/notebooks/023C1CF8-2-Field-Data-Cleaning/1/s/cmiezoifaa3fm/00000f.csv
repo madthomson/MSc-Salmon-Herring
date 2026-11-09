@@ -1,0 +1,6 @@
+"0","write.csv(combined_df, file = paste0(""./Core-Fieldwork/Field-Data/"", Sys.Date(), ""-psf-herring-A1-field-full-catch-data"", "".csv""))"
+"0",""
+"0","# combined_df_2024 <- combined_df %>% filter(year == 2024)"
+"0","# "
+"0","# write.csv(combined_df_2024, file = paste0(Sys.Date(), ""-psf-herring-A1-field-full-catch-data-2024"", "".csv""))"
+"0",""
