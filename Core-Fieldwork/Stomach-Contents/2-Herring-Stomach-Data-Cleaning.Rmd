@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
 
 #load packages
 library(tidyverse)
@@ -21,33 +22,31 @@ This document contains code for cleaning and cross-referencing data entered in t
 #Load data
 
 ```{r}
-#working directory
-setwd("C:/Users/madeleinethomson/OneDrive/Herring-SRIF/Stomach-Contents/")
 
 #date data was downloaded from Epicollect
 # Download_Date <- Sys.Date()
 Download_Date <- "2026-04-26"
 
-sampling_day <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/form-1__sample-information.csv"),sep=",", na.strings=c("","NA"))
+sampling_day <- read.csv(paste0("./Core-Fieldwork/Stomach-Contents/Raw-Data/Epicollect-Download/psf-gastric-lavage-sampling-csv-", Download_Date, "/form-1__sample-information.csv"),sep=",", na.strings=c("","NA"))
 
-stom <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/form-2__stomach-contents.csv"),sep=",", na.strings=c("","NA"))
+stom <- read.csv(paste0("./Core-Fieldwork/Stomach-Contents/Raw-Data/Epicollect-Download/psf-gastric-lavage-sampling-csv-", Download_Date, "/form-2__stomach-contents.csv"),sep=",", na.strings=c("","NA"))
 
-fish <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/branch-1__fish.csv"),sep=",", na.strings=c("","NA"))
+fish <- read.csv(paste0("./Core-Fieldwork/Stomach-Contents/Raw-Data/Epicollect-Download/psf-gastric-lavage-sampling-csv-", Download_Date, "/branch-1__fish.csv"),sep=",", na.strings=c("","NA"))
 
-intact_invert <- read.csv(paste0("./Epicollect-Downloads/downloaded_data/psf-gastric-lavage-sampling-csv-", Download_Date, "/branch-2__intact-prey.csv"),sep=",", na.strings=c("","NA"))
+intact_invert <- read.csv(paste0("./Core-Fieldwork/Stomach-Contents/Raw-Data/Epicollect-Download/psf-gastric-lavage-sampling-csv-", Download_Date, "/branch-2__intact-prey.csv"),sep=",", na.strings=c("","NA"))
 
-stom_summary_we <- read.csv("./Winter-Ecology-Transfer/Data-Reformatting/2026-07-14-psf-winter-A1-stom-stomach-summary.csv", sep=",", na.strings=c("","NA")) %>%
+stom_summary_we <- read.csv("./Core-Fieldwork/Stomach-Contents/Raw-Data/Winter-Ecology/Reformatted/2026-11-09-psf-winter-A1-stom-stomach-summary.csv", sep=",", na.strings=c("","NA")) %>%
   mutate(date = as.Date(date),
          analysis_date = as.Date(analysis_date)) %>%
   mutate(survey_name = "BCSRIF Herring", salmon_sample_type == "Stomach Contents ONLY")
 
-stom_fish_we <- read.csv("./Winter-Ecology-Transfer/Data-Reformatting/2026-07-14-psf-winter-A1-stom-fish-prey.csv", sep=",", na.strings=c("","NA")) %>%
+stom_fish_we <- read.csv("./Core-Fieldwork/Stomach-Contents/Raw-Data/Winter-Ecology/Reformatted/2026-11-09-psf-winter-A1-stom-fish-prey.csv", sep=",", na.strings=c("","NA")) %>%
   mutate(date = as.Date(date),
          analysis_date = as.Date(analysis_date)) %>%
   mutate(survey_name = "BCSRIF Herring", salmon_sample_type == "Stomach Contents ONLY")
 
 
-stom_isotope_we <- read.csv("./Winter-Ecology-Transfer/Data-Reformatting/2026-07-14-psf-winter-A1-stom-isotope-prey.csv", sep=",", na.strings=c("","NA")) %>%
+stom_isotope_we <- read.csv("./Core-Fieldwork/Stomach-Contents/Raw-Data/Winter-Ecology/Reformatted/2026-11-09-psf-winter-A1-stom-isotope-prey.csv", sep=",", na.strings=c("","NA")) %>%
   mutate(date = as.Date(date),
          analysis_date = as.Date(analysis_date)) %>%
   mutate(survey_name = "BCSRIF Herring", salmon_sample_type == "Stomach Contents ONLY")
@@ -601,7 +600,7 @@ combinedA <- combinedA %>%
   arrange(date, general_location, lavage_bag)
 
 
-write.csv(combinedA, paste0(Download_Date, "-psf-herring-A1-stom-stomach-summary.csv"))
+write.csv(combinedA, paste0("./Core-Fieldwork/Stomach-Contents/Clean-Data/", Download_Date, "-psf-herring-A1-stom-stomach-summary.csv"))
 
 
 ```
@@ -633,7 +632,7 @@ combinedB <- combinedB %>%
   dplyr::select(-c(ec5_branch_uuid, fish_photo, fish_sample_SI, fish_storage_SI)) %>%
   arrange(date, general_location, lavage_bag)
 
-write.csv(combinedB, paste0(Download_Date, "-psf-herring-A1-stom-fish-prey", ".csv"))
+write.csv(combinedB, paste0("./Core-Fieldwork/Stomach-Contents/Clean-Data/", Download_Date, "-psf-herring-A1-stom-fish-prey", ".csv"))
 
 ```
 
@@ -739,7 +738,7 @@ full_SI <- full_SI %>%
   arrange(sample_number)
 
 
-write.csv(full_SI, paste0(Download_Date, "-psf-herring-A1-stom-isotope-prey", ".csv"))
+write.csv(full_SI, paste0("./Core-Fieldwork/Stomach-Contents/Clean-Data/", Download_Date, "-psf-herring-A1-stom-isotope-prey", ".csv"))
 
 ```
 

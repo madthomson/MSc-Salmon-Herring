@@ -1,0 +1,1393 @@
+---
+title: "Field Data Cleaning"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_knit$set(root.dir = rprojroot::find_rstudio_root_file())
+
+#load packages
+library(tidyverse)
+library(lubridate)
+library(kableExtra)
+library(openxlsx)
+
+```
+
+<div style="display:none">
+
+#Introduction 
+
+This document contains code for cleaning and cross-referencing data entered in the data collection app Epicollect5 as part of Activity 1 of PSF's Salmon-Herring interactions project. The Epicolllect5 form *PSF Marine Science Fish Sampling* contains (1) Activity 1 field data and (2) non-salmonid stable isotope and otolith processing data. Epicollect5 creates several data sheets per form that can be cross-referenced with each other using auto-generated ID columns.
+
+#Summary of Cleaning Steps
+
+As of 2026-11-09 the field data cleaning is complete except (1) the gill biopsy data has not been cross-referenced with the actual vials and (2) new genetics results may become available that alter species identifications. Plus unsure about merging with the stomach data  !!!!!!!
+
+Completed steps:
+- All fishing site names are correctly assigned (checked using mapping - separate code)
+- All fishing coordinates are reasonable (checked using mapping - separate code)
+- PIT scanner data is correctly entered (cross-referenced with scanner downloads - see email thread with Brahm)
+- Scale data correctly entered (cross-referenced with physical books)
+- Fin clip data correctly entered (cross-referenced with vials)
+- Temperature and salinity are withing reasonable ranges
+- Microtroll gear information seems reasonable
+- Species ID and fork length checked using field photos
+- Species ID updated using GSI data
+
+
+
+#Load data
+
+```{r}
+
+# setwd("~/GitHub/MSc-Salmon-Herring")
+
+#date data was downloaded from Epicollect
+read_date <- "2026-04-18"
+# read_date <- Sys.Date()
+
+day <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/form-1__day-information.csv"),sep=",", na.strings=c("","NA"))
+
+set <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/form-2__fishing-set.csv"),sep=",", na.strings=c("","NA"))
+
+mt <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-1__microtroll-fish-data.csv"),sep=",", na.strings=c("","NA"))
+
+bs <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-2__beach-seine-salmonid-data.csv"),sep=",", na.strings=c("","NA"))
+
+ps <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-3__purse-seine-fish-data.csv"),sep=",", na.strings=c("","NA"))
+
+mort <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-4__retained-lethal-samples.csv"), sep=",", na.strings=c("","NA"))
+
+isotope <- read.csv(paste0("./Core-Fieldwork/Field-Data/Raw-Data/Epicollect-Download/psf-marine-science-fish-sampling-csv-", read_date, "/branch-5__stable-isotope-samples.csv"), sep=",", na.strings=c("","NA"))
+
+```
+
+#Wrangle set data
+
+```{r}
+day <- day %>%
+  #remove columns that are not of interest
+  dplyr::select(-c(created_at, uploaded_at, created_by, 
+                   title, day_start_time)) %>% 
+  #rename unique ID reference columns
+  rename(ec5_uuid_day = ec5_uuid) %>%
+  #fix date format
+  mutate(date = as.Date(date, format = "%d/%m/%Y"),
+         year = lubridate::year(date),
+         month = lubridate::month(date)) %>%
+  relocate(c(year, month), .before = date) 
+
+set <- set %>%
+  #remove columns that are not of interest
+  dplyr::select(-c(uploaded_at, created_by, title)) %>%
+  #rename unique ID reference columns
+  rename(ec5_uuid_set = ec5_uuid, 
+         ec5_uuid_day = ec5_parent_uuid)
+```
+
+
+```{r}
+##split set form into multiple forms by sampling type so that column can re-named and merged 
+##(e.g., combine MT_Site_Location and BS_Site_Location into a single column)
+
+#filter set "base" with ID columns and fishing event type
+set_base <- set %>% 
+  filter(event_type %in% c("Microtroll", "Beach Seine", "Purse Seine")) %>% #choose rows
+  dplyr::select(ec5_uuid_day, ec5_uuid_set, created_at, event_type) %>% #choose columns
+  rename(set_created_at = created_at) #rename column
+
+#filter set "microtroll" with all microtrolling columns and rows
+set_mt <- set %>% 
+  filter(event_type == "Microtroll") %>% 
+  dplyr::select(ec5_uuid_set, event_type, contains("MT_")) 
+
+#filter set "beach seine" with all beach seine columns and rows
+set_bs <- set %>%
+  filter(event_type == "Beach Seine") %>% 
+  dplyr::select(ec5_uuid_set, event_type, contains("BS_")) 
+
+#filter set "purse seine" with all purse seine columns and rows
+set_ps <- set  %>%
+  filter(event_type == "Purse Seine") %>%
+  dplyr::select(ec5_uuid_set, event_type, contains("PS_")) 
+
+#check that the number of rows in the "base" is equal to the other three sets
+nrow(set_base) - (nrow(set_mt) + nrow(set_bs) + nrow(set_ps))
+
+#check the number of rows against the original set data
+nrow(filter(set, event_type %in% c("Beach Seine", "Purse Seine", "Microtroll"))) - nrow(set_mt) - nrow(set_bs) - nrow(set_ps)
+
+#remove prefix from column names
+colnames(set_mt) <- gsub("MT_", "", colnames(set_mt))
+colnames(set_bs) <- gsub("BS_", "", colnames(set_bs))
+colnames(set_ps) <- gsub("PS_", "", colnames(set_ps))
+
+#merge forms back together
+set_clean <- set_mt %>%
+  full_join(set_bs) %>%
+  full_join(set_ps) %>%
+  full_join(set_base)
+
+#check that clean set matches base set
+nrow(set_base) - nrow(set_clean)
+
+#look at column names
+colnames(set_clean)
+
+#remove columns not of interest
+set_clean <- set_clean %>% 
+  dplyr::select(-c(
+    accuracy_set_start_gps, accuracy_set_end_gps, 
+    UTM_Northing_set_start_gps, UTM_Easting_set_start_gps, UTM_Zone_set_start_gps,
+    UTM_Northing_set_end_gps, UTM_Easting_set_end_gps, UTM_Zone_set_end_gps))
+
+set_clean <- set_clean %>%
+  rowwise() %>%
+  mutate(Herring = sum(Herring_Unkn_Size, Herring_SM_90mm, Herring_L_90mm, na.rm = TRUE)) %>%
+  relocate(Herring, .before = Herring_Unkn_Size)
+
+set_clean <- set_clean %>%
+  dplyr::select(-c(Herring_Unkn_Size, Herring_SM_90mm, Herring_L_90mm))
+
+#replace 0s with NA for the species bycatch counts
+set_clean <- set_clean %>%
+  mutate(across(
+    c("Salmonids", "Coho", "Chinook", "Chum", "Pink", "Sockeye", "Cutthroat_Trout", 
+      "DV_Trout", "Steelhead_Trout","Herring", 
+      "Northern_Anchovy", "Pacific_SandLance", "Smelt", "Bay_Pipefish", "Flatfishes", "Cods", 
+      "Eelpouts", "Gobies", "Gunnels", "Greenlings", "Lampreys", "Lumpsuckers", 
+      "Pacific_Sandfish", "Pacific_Spiny_Dog", "Plainfin_Midship", "Poachers", "Rockfishes", 
+      "Ronquils", "Sculpins", "Snailfishes", "Surfperches", "Squids", "ThreeSpine_Stick", 
+      "Tubesnout", "UNID_1", "UNID_2"), ~ ifelse(. == 0, NA, .)))
+
+#reorder columns
+set_clean <- set_clean %>% 
+  dplyr::select(ec5_uuid_day, ec5_uuid_set, set_created_at, 
+                event_type, set_location, set_start_time, set_end_time,
+         lat_set_start_gps, long_set_start_gps,
+         lat_set_end_gps, long_set_end_gps, 
+         surface_temp_c, salinity_ppt, sea_state, number_vessels, tow_duration_min,
+         everything())
+
+colnames(set_clean)
+```
+
+
+```{r}
+#merge day and set forms
+day_set <- right_join(day, set_clean, by = "ec5_uuid_day")
+colnames(day_set)
+
+#reorder columns
+day_set <- day_set %>%
+  dplyr::select(ec5_uuid_day, ec5_uuid_set, project, year, month, date, general_location, 
+                team, vessels, crew, pit_scanner, everything()) %>%
+  dplyr::select(-set_comments, set_comments, -qc_set, qc_set) 
+
+day_set <- unite(day_set, set_comments, set_comments, qc_set, na.rm = TRUE, sep = "; ")
+day_set <- unite(day_set, day_comments, day_comments, qc_check, na.rm = TRUE, sep = "; ")
+
+day_set <- unite(day_set, set_start_gps, lat_set_start_gps, long_set_start_gps, 
+                 na.rm = TRUE, remove = FALSE, sep = ", ")
+day_set <- unite(day_set, set_end_gps, lat_set_end_gps, long_set_end_gps, 
+                 na.rm = TRUE, remove = FALSE, sep = ", ")
+```
+
+#Wrangle fish biodata
+
+```{r}
+
+#remove prefix from column names
+colnames(mt) <- gsub("^MT_", "", colnames(mt))
+colnames(bs) <- gsub("^BS_", "", colnames(bs))
+colnames(ps) <- gsub("^PS_", "", colnames(ps))
+
+#general wrangling
+mt <- mt %>% dplyr::select(-c(uploaded_at, created_by, title)) %>% #remove columns
+  mutate(pit_tray = as.factor(pit_tray)) %>% #convert pit_tray to factor
+  mutate(fin_vial = as.factor(fin_vial))
+
+bs <- bs %>% dplyr::select(-c(uploaded_at, created_by, title)) %>%
+  mutate(pit_tray = as.factor(pit_tray)) %>%
+  mutate(fin_vial = as.factor(fin_vial))
+
+ps <- ps %>% dplyr::select(-c(uploaded_at, created_by, title)) %>%
+  mutate(pit_tray = as.factor(pit_tray)) %>%
+  mutate(fin_vial = as.factor(fin_vial))
+
+#combine data frames
+combined_df <- mt %>% full_join(bs) %>% full_join(ps)
+
+#rename unique ID reference columns
+combined_df <- combined_df %>%
+  rename(ec5_uuid_set = ec5_branch_owner_uuid) %>%
+  rename(fish_created_at = created_at)
+
+colnames(combined_df)
+```
+
+#Merge set data with fish biodata
+
+```{r}
+
+#summarize number of fish in biodata branches per set
+biodata.count <- combined_df %>%
+  #remove rows without fish
+  filter(!is.na(ec5_branch_uuid)) %>%
+  #select columns of interest
+  dplyr::select(ec5_uuid_set, species) %>%
+  #group by set and species
+  group_by(ec5_uuid_set, species) %>%
+  #summarize number of species per set
+  summarise(number = n())
+
+#list of unique species in branches
+unique(biodata.count$species)
+
+#pivot wider
+biodata.count <- biodata.count %>%
+  mutate(species = paste0(species, "_Branch")) %>%
+  pivot_wider(names_from = species, values_from = number) %>%
+  rename(Herring_Branch = Herring_Unkn_Size_Branch)
+
+#merge with set data to get full counts of catches for each set
+day_set <- full_join(day_set, biodata.count, by = "ec5_uuid_set")
+
+#add together bycatch number and branch biodata number
+day_set <- day_set %>%
+  group_by(ec5_uuid_set) %>%
+  rowwise() %>%
+  mutate(Rockfishes2 = sum(Rockfishes, Rockfishes_Branch, na.rm = TRUE),
+         Coho2 = sum(Coho, Coho_Branch, na.rm = TRUE),
+         Chinook2 = sum(Chinook, Chinook_Branch, na.rm = TRUE),
+         Herring2 = sum(Herring, Herring_Branch, na.rm = TRUE),
+         Pink2 = sum(Pink, Pink_Branch, na.rm  = TRUE),
+         Cutthroat_Trout2 = sum(Cutthroat_Trout, Cutthroat_Trout_Branch, na.rm = TRUE),
+         Greenlings2 = sum(Greenlings, Greenlings_Branch, na.rm = TRUE),
+         Flatfishes2 = sum(Flatfishes, Flatfishes_Branch, na.rm = TRUE),
+         Sockeye2 = sum(Sockeye, Sockeye_Branch, na.rm = TRUE),
+         Chum2 = sum(Chum, Chum_Branch, na.rm = TRUE),
+         Pacific_Spiny_Dog2 = sum(Pacific_Spiny_Dog, Pacific_Spiny_Dog_Branch, na.rm = TRUE),
+         Unidentified = sum(UNID_1, UNID_2, na.rm = TRUE)) %>%
+  ungroup()
+
+
+#relocate columns
+day_set <- day_set %>%
+  relocate(Rockfishes2, .before = Rockfishes) %>%
+  relocate(Coho2, .before = Coho) %>%
+  relocate(Chinook2, .before = Chinook) %>%
+  relocate(Herring2, .before = Herring) %>%
+  relocate(Pink2, .before = Pink) %>%
+  relocate(Cutthroat_Trout2, .before = Cutthroat_Trout) %>%
+  relocate(Greenlings2, .before = Greenlings) %>%
+  relocate(Flatfishes2, .before = Flatfishes) %>%
+  relocate(Sockeye2, .before = Sockeye) %>%
+  relocate(Chum2, .before = Chum) %>%
+  relocate(Pacific_Spiny_Dog2, .before = Pacific_Spiny_Dog) %>%
+  relocate(Unidentified, .before = UNID_1)
+
+#check that column sums worked by looking at an example
+test <- day_set %>%
+  dplyr::select(Chinook2, Chinook, Chinook_Branch)
+#looks good
+
+#remove extra columns
+day_set <- day_set %>%
+  dplyr::select(-c(Rockfishes, Rockfishes_Branch, Coho, Coho_Branch,
+                   Chinook, Chinook_Branch, Herring, Herring_Branch,
+                   Pink, Pink_Branch, Cutthroat_Trout, Cutthroat_Trout_Branch,
+                   Greenlings, Greenlings_Branch, Flatfishes, Flatfishes_Branch,
+                   Sockeye, Sockeye_Branch, Chum, Chum_Branch, Pacific_Spiny_Dog, 
+                   Pacific_Spiny_Dog_Branch, UNID_1, UNID_1_Feat, UNID_1_Phot,
+                   UNID_2, UNID_2_Feat, UNID_2_Phot))
+
+#rename existing columns
+day_set <- day_set %>%
+  rename(Rockfishes = Rockfishes2,
+         Coho = Coho2,
+         Chinook = Chinook2,
+         Herring = Herring2,
+         Pink = Pink2,
+         Cutthroat_Trout = Cutthroat_Trout2,
+         Greenlings = Greenlings2,
+         Flatfishes = Flatfishes2,
+         Sockeye = Sockeye2,
+         Chum = Chum2,
+         Pacific_Spiny_Dog = Pacific_Spiny_Dog2)
+
+#replace 0s with NA for the species counts
+day_set <- day_set %>%
+  mutate(across(
+    c("Salmonids", "Coho", "Chinook", "Chum", "Pink", "Sockeye", "Cutthroat_Trout", 
+      "DV_Trout", "Steelhead_Trout","Herring", 
+      "Northern_Anchovy", "Pacific_SandLance", "Smelt", "Bay_Pipefish", "Flatfishes", "Cods", 
+      "Eelpouts", "Gobies", "Gunnels", "Greenlings", "Lampreys", "Lumpsuckers", 
+      "Pacific_Sandfish", "Pacific_Spiny_Dog", "Plainfin_Midship", "Poachers", "Rockfishes", 
+      "Ronquils", "Sculpins", "Snailfishes", "Surfperches", "Squids", "ThreeSpine_Stick", 
+      "Tubesnout", "Unidentified"), ~ ifelse(. == 0, NA, .)))
+
+#combine fish_biodata with day_set data
+combined_df <- full_join(day_set, combined_df)
+
+#reorder columns
+combined_df <- combined_df %>%
+  relocate(c(ec5_branch_uuid, fish_photo, set_created_at, fish_created_at), 
+           .after = ec5_uuid_set) %>%
+  relocate(c(species, clip_status, fork_length_mm, fish_depth_ft, lure_color,
+             scale_book, scale_no, gastric_lavage, lavage_bag,
+             tag_status, pit_scanner, pit_tray, tag_id_short, biopsy_vial,
+             fin_vial, pre_injury, handling_injury, sign_symp, 
+             whatman_sheet, whatman_no, fish_weight_g, fish_comments, qc_fish), 
+           .after = biosample_count)
+
+combined_df <- 
+  unite(combined_df, fish_comments, fish_comments, qc_fish, na.rm = TRUE, sep = "; ")
+
+```
+
+#Assign fishing regions
+
+Use fishing site names to assign general fishing regions: SGI, Southern Gulf Islands including Ladysmith; CO, Comox; CR, Campbell River including Discovery Islands; and PR, Powell River.
+
+```{r}
+#assign regions based on site names
+# combined_df <- combined_df %>%
+#   mutate(general_location = case_when(grepl("Cowichan", set_location) ~ "SGI",
+#                             grepl("Southern Gulf Flex", set_location) ~ "SGI",
+#                             grepl("Comox", set_location) ~ "CO",
+#                             grepl("Powell River", set_location) ~ "PR",
+#                             grepl("Campbell River", set_location) ~ "CR",
+#                             grepl("Ladysmith", set_location) ~ "SGI",
+#                             grepl("Discovery Islands", set_location) ~ "CR",
+#                             grepl("Nanaimo", set_location) ~ "NMO",
+#                             TRUE ~ set_location))
+
+#check that all sites were assigned to a region
+unique(combined_df$general_location)
+```
+
+#Fill in variables that are recorded only when values change
+
+Certain variables such as sea state, number of hooks fished, and set location, are only recorded within a day when these variables change. We need to fill in the rest of the rows.
+
+```{r}
+#sort data and fill other variables (recorded only when values change)
+combined_df <- combined_df %>%
+  arrange(fish_created_at) %>%
+  arrange(set_created_at) %>%
+  arrange(date, general_location, team) %>%
+  group_by(ec5_uuid_day) %>% #group by day
+  tidyr::fill(c("sea_state", "number_vessels", "set_time_min",
+                "sides_fished", "deepest_hook_ft", "interval_hook_ft", "number_hooks",
+                "surface_rod", "set_location", "pit_tray", "whatman_sheet"), 
+              .direction = "down") %>%
+  ungroup()
+
+#removed filled PIT tray if no tag applied
+combined_df <- combined_df %>% 
+  mutate(pit_tray = case_when(is.na(tag_id_short)  ~ NA, TRUE ~ pit_tray))
+
+#remove filled PIT tray for recaps or tagging status missing (could be sneaky recaps)
+combined_df <- combined_df %>% 
+  mutate(pit_tray = case_when(
+    tag_status == "recap" ~ NA, 
+    is.na(tag_status) ~ NA,
+    TRUE ~ pit_tray))
+
+#remove filled Whatman Sheet if no Whatman Square
+combined_df <- combined_df %>% 
+  mutate(whatman_sheet = case_when(is.na(whatman_no)  ~ NA, TRUE ~ whatman_sheet))
+
+
+```
+
+#Filter out Winter Ecology data
+```{r}
+#remove data from winter ecology day - already copied over to bottlenecks system
+combined_df <- combined_df %>%
+  filter(date != "2025-10-10")
+```
+
+
+#QC & Cleaning: PIT tag data
+
+```{r}
+
+#PIT Tray QC
+
+#view unique PIT tray entries
+unique(combined_df$pit_tray)
+
+#write a list of PIT trays recorded as "Other" for manual QC
+test <- filter(combined_df, pit_tray == "Other (specify in comments)")
+#PIT tray recorded as 529 in the comments, but this is not a PIT tray number
+#remove this PIT tray - we don't really need it 
+combined_df <- combined_df %>%
+  mutate(pit_tray = case_when(
+    ec5_uuid_day == "59c13c97-dc73-49d4-b5c6-017384f52189" & 
+      pit_tray == "Other (specify in comments)" ~ NA,
+    TRUE ~ pit_tray))
+
+#check it worked
+unique(combined_df$pit_tray)
+
+#fill in leading "APT" for PIT trays recorded as just numbers
+combined_df <- combined_df %>%
+  mutate(pit_tray = if_else(grepl("^\\d{6}$", pit_tray), 
+                            paste0("APT", pit_tray), pit_tray))
+
+#check that the replacement worked
+unique(combined_df$pit_tray)
+
+
+#Other tagging QC: look through different possible error scenarios
+unique(combined_df$tag_status)
+
+#tagging status is missing, but tag was recorded
+test <- combined_df %>% 
+  filter(is.na(tag_status) & !is.na(tag_id_short)) %>%
+  dplyr::select(date, general_location, set_start_time, tag_status, tag_id_short)
+nrow(test)
+#no instances
+
+#tagging status is "no tag will be applied", but tag was recorded
+test <- combined_df %>% 
+  filter(tag_status == "no_tag" & !is.na(tag_id_short)) %>%
+  dplyr::select(date, general_location, set_start_time, tag_status, tag_id_short)
+nrow(test)
+#no instances
+
+#tagging status is "tag will be applied", but NO tag was recorded  
+test <- combined_df %>% 
+  filter(tag_status == "tag" & is.na(tag_id_short)) %>%
+  dplyr::select(date, general_location, set_start_time, species, 
+         fork_length_mm, tag_status, tag_id_short, fish_comments)
+nrow(test)
+#three instances 
+#one instance - tag was applied but not scanned
+#two instances - unclear whether tag was applied but not scanned or never applied
+
+#tagging status is "recap", but NO tag was recorded 
+test <- combined_df %>% 
+  filter(tag_status == "recap" & is.na(tag_id_short)) %>%
+  dplyr::select(pit_scanner, date, general_location, 
+         set_start_time, tag_status, tag_id_short, fish_comments)
+nrow(test)
+#no instances
+
+#PIT scanner missing, but tags detected/applied
+test <- combined_df %>%
+  group_by(ec5_uuid_day) %>%
+  filter(is.na(pit_scanner) & !is.na(tag_id_short)) %>%
+  dplyr::select(pit_scanner, date, general_location, 
+         set_start_time, tag_status, tag_id_short, fish_comments)
+nrow(test)
+#no instances
+
+#PIT tray missing, but tags recorded (excluding recaps) 
+test <- combined_df %>%  
+  filter(is.na(pit_tray) & !is.na(tag_id_short) & tag_status != "recap") %>%
+  dplyr::select(date, crew, general_location, set_start_time, tag_id_short, day_comments, fish_comments)
+nrow(test)
+#there are several instances of this that I don't think can be fixed
+#but I also don't think it matters - ignore
+
+```
+```{r}
+#PIT tag less than 4 digits
+sort(unique(combined_df$tag_id_short))
+
+#less than 1000
+test <- combined_df %>% filter(tag_id_short <= 999) %>% 
+  dplyr::select(ec5_uuid_day, ec5_uuid_set, ec5_branch_uuid,
+         date, general_location, set_start_time, species, tag_status,
+         tag_id_short, pit_tray, pit_scanner, fish_comments)
+nrow(test)
+unique(test$ec5_uuid_day)
+
+#add leading zeroes to tag ID on a case-by-case basis (check fish comments)
+combined_df <- combined_df %>% mutate(tag_id_short = case_when(
+  #Coho recap 2025-07-02 (Powell)
+  ec5_branch_uuid == "f9b4c40b-ca38-4568-8ad3-49e2b4865840" ~ sprintf("%04d", tag_id_short), 
+  #Full day 2025-08-14 (Nanaimo)
+  ec5_uuid_day == "5ac4f82a-8d79-424d-a49e-1619b69bc189"~ sprintf("%04d", tag_id_short),
+  #Full day 2025-08-27 (SGI)
+  ec5_uuid_day == "d3ee5bc9-ecd3-4537-9d87-fc4f41a548fc" ~ sprintf("%04d", tag_id_short),
+  #Full day 2025-08-28 (Nanaimo) 
+  ec5_uuid_day == "b60c4b4a-42b7-4bb3-830a-8398832fc969" ~ sprintf("%04d", tag_id_short),
+  #Full day 2025-09-05 (SGI) 
+  ec5_uuid_day == "ba01a67f-bd7a-4268-b1ed-aa8bab9a2c00" ~ sprintf("%04d", tag_id_short),
+  TRUE ~ as.character(tag_id_short)))
+
+#check that the replacement worked
+#check for tag ID's with less than 4 digits
+test <- combined_df %>% filter(nchar(tag_id_short) < 4)
+nrow(test)
+#none - looks good!
+
+#Fix NA's with weird formatting
+combined_df <- combined_df %>%
+  mutate(tag_id_short = case_when(tag_id_short == "  NA" ~ NA,
+                                  TRUE ~ tag_id_short))
+
+#check that the replacement worked
+sort(unique(combined_df$tag_id_short))
+#yup - NA no longer appears
+
+#if no recorded PIT tag number or tagging status, 
+#assign tagging status to "No tag will be applied"
+combined_df <- combined_df %>% 
+  mutate(tag_status = case_when(is.na(tag_id_short) & species %in% c("Chinook", "Coho") & is.na(tag_status) ~ "no_tag", TRUE ~ tag_status))
+
+#From manual QC - multiple PIT scanners used on one day
+test <- combined_df %>% 
+  filter(grepl("pit scan", day_comments, ignore.case = TRUE) | grepl("pit scan", set_comments, ignore.case = TRUE) | grepl("pit scan", fish_comments, ignore.case = TRUE)) %>%
+  dplyr::select(date, general_location, set_start_time, pit_scanner,
+                day_comments, set_comments, fish_comments)
+#there's a couple instances of this - resolved below
+
+#retrieve set IDs for sets where the scanner used was different than in day comments
+pit_bad_20250807Nan <- combined_df %>% 
+  filter(ec5_uuid_day == "d11eba7b-1766-476f-b1b0-6230e7615bc3") %>%
+  group_by(ec5_uuid_set) %>% 
+  slice(1) %>% 
+  dplyr::select(date, pit_scanner, ec5_uuid_set, set_start_time, set_comments) %>% 
+  arrange(set_start_time) 
+
+pit_bad_20250807Nan <- pit_bad_20250807Nan %>%
+  filter(set_start_time != "09:10")
+
+#Correct tags to the correct scanner on a case-by-case basis
+combined_df <- combined_df %>%
+  mutate(pit_scanner = case_when(
+    ec5_branch_uuid %in% 
+      c("f4b1563b-56b0-4410-994d-330f1ab11c91",
+        "daf19624-eeba-4638-9f9f-4e3b98d6a4af",
+        "6f75003a-a8da-4cdb-b447-118a308491f5",
+        "68ff4713-0678-447e-9b73-c85daad9d8b8",
+        "ec30b748-d0d1-49e3-8a81-561f05368894",
+        "ab691d18-bb69-4f90-b8c6-7ac18947acce",
+        "d8b48116-91c7-484e-8b02-1a2c0b851ba0",
+        "c939c345-2389-4b6e-a941-07db718b89dc") ~ 5833,
+    ec5_uuid_set %in%
+      pit_bad_20250807Nan$ec5_uuid_set ~ 852, 
+    TRUE ~ pit_scanner))
+
+#check that pit scanner replacement worked
+test <- combined_df %>% 
+  filter(grepl("pit scan", day_comments, ignore.case = TRUE) | grepl("pit scan", set_comments, ignore.case = TRUE) | grepl("pit scan", fish_comments, ignore.case = TRUE)) %>%
+  dplyr::select(date, general_location, set_start_time, pit_scanner,
+                day_comments, set_comments, fish_comments)
+#all looks reasonable!
+
+```
+
+#QC & Cleaning: Scale data
+
+The scale book number was recorded once per day on the first time that scale book was used. Scale books are species-specific: there is one for Chinook and (sometimes) one for Coho. We only took scales from Coho early in the year, then dropped that part of the protocol. We need to fill in the rest of the rows.
+
+```{r}
+
+#because a couple species IDs were changed after looking at the field photos,
+#the scale book needs to be added for those fish (because the scale book fill
+#is species-specific). This was previously done in Epicollect, but it's no longer
+#easy to download the Epicollect data using R, so making a couple changes here 
+#instead
+combined_df <- combined_df %>% mutate(scale_book = case_when(
+  ec5_branch_uuid == "e379dfba-9165-4d1a-ad58-6cd02c0182cd" ~ 90,
+  ec5_branch_uuid == "2d58a325-7ab9-4615-8408-75a3de960518" ~ 84,
+  ec5_branch_uuid == "41538bb1-abf0-4bf6-b39c-ff221c621d27" ~ 284,
+  ec5_branch_uuid == "24df4b48-911c-4ef7-9946-61a5ca2bf4e4" ~ 22397,
+  ec5_branch_uuid == "2e6760a4-9fab-40c1-95ea-68aa82aa2cd4" ~ 265,
+  ec5_branch_uuid == "8f8beb3c-2b30-426d-b96a-ca544aadc7cf" ~ 22397,
+  ec5_branch_uuid == "7e5f705b-9964-4012-bc7c-769b04e821e9" ~ 130,
+  ec5_branch_uuid == "526a522e-8227-4c5a-88fb-f663dc6410d3" ~ 265,
+  ec5_branch_uuid == "37c13b44-cc02-4eec-9a08-966b89024d6c" ~ 283,
+  ec5_branch_uuid == "4a360594-c70d-4dfd-9974-50b8ed95c588" ~ 265,
+  TRUE ~ scale_book))
+
+#sort data and fill scale book number (species-specific)
+combined_df <- combined_df %>%
+  arrange(fish_created_at) %>% 
+  arrange(set_created_at) %>% 
+  arrange(species) %>% 
+  arrange(date, general_location) %>%
+  #group by day and species
+  group_by(ec5_uuid_day, species) %>% 
+  #fill scale book to subsequent fish within a day
+  tidyr::fill("scale_book", .direction = "down") %>%
+  #remove scale book if no scales were taken
+  mutate(scale_book = case_when(is.na(scale_no) ~ NA, TRUE ~ scale_book)) %>%
+  #convert PSF scale books to PSFXXXX form
+  mutate(scale_book = case_when(nchar(scale_book) <= 3 ~ paste0("PSF", str_pad(as.factor(scale_book), width = 4, pad = "0")), TRUE ~ as.factor(scale_book))) %>%
+  ungroup()
+
+combined_df <- combined_df %>% mutate(scale_book = case_when(
+  is.na(scale_book) & !is.na(scale_no) & 
+    ec5_uuid_day == "305fb8ff-a2d5-4ce7-8046-fa9748d3b087" ~ "PSF0157", 
+  TRUE ~ scale_book))
+
+
+#check that it worked
+sort(unique(combined_df$scale_book))
+
+```
+
+```{r}
+
+#General scale QC: cross-reference with physical scale books before submitting for DNA
+#Scale QC from 2024 is complete
+
+#number of scale books filled
+length(unique(combined_df$scale_book))
+
+#number of scales collected
+sum(!is.na(combined_df$scale_no))
+
+#range of scales per book
+test <- combined_df %>%
+  group_by(scale_book, scale_no) %>%
+  summarise() %>%
+  ungroup() %>%
+  arrange(scale_book) %>%
+  mutate(binom = 1) %>%
+  pivot_wider(names_from = scale_book, values_from = binom)
+
+#check that all scale numbers are between 1 and 50
+sort(unique(combined_df$scale_no)) 
+
+#check for duplicate combinations of scale book and scale square
+test <- combined_df %>% 
+  dplyr::select(date, set_location, scale_book, scale_no, fish_comments) %>% 
+  mutate(Scale_ID = paste0(scale_book, "_", scale_no)) %>%
+  filter(!is.na(Scale_ID) & !str_detect(tolower(Scale_ID), "na"))
+
+dup <- duplicated(test$Scale_ID) | duplicated(test$Scale_ID, fromLast = TRUE)
+test2 <- arrange(test[dup, ], .by = Scale_ID)
+
+
+```
+
+
+#QC & Cleaning: Temperature and salinity data
+
+During beach and purse seining, the surface water temperature was recorded once for each site per day on the first (usually but not always) fishing set at that site. During microtrolling, the surface water temperature was recorded once per day. We need to merge these data into a single column
+
+*FLAG* how should we deal with beach/purse seine days where a temp is recorded in day? - ignore because we don't know what site it refers to
+
+```{r}
+
+#combine surface_temp for microtrolling (recorded in the day form) 
+#with beach and purse seining (recorded in the set form)
+combined_df <- combined_df %>%
+  mutate(surface_temp_c = case_when(event_type == "Microtroll" ~ day_surface_temp_c,
+                                    TRUE ~ surface_temp_c)) 
+
+#check that it worked
+test <- combined_df %>% dplyr::select(date, event_type, day_surface_temp_c, surface_temp_c)
+
+#remove extra temperature column
+combined_df <- combined_df %>% 
+  dplyr::select(-day_surface_temp_c)
+
+```
+
+Similar to temperature, salinity was recorded once for each site per day on the first (usually but not always) fishing set at that site during beach and purse seining. Salinity was not recorded during microtrolling. We need to copy the temperature and salinity data into the other subsequent sets at the same site on the same day. 
+
+Note: we do not want to group together sites listed as "Other" because these may not actually be from the same location. Solution: Add dummy temp/salinity variables to "Other" location sets that do not have their own temp/salinity values to prevent filling, then replace dummy variable with NA. 
+
+```{r}
+
+## Temperature and Salinity ##
+
+combined_df <- combined_df %>% 
+  #sort data in chronological order & group by day and set location
+  arrange(fish_created_at) %>%
+  arrange(set_created_at) %>%
+  arrange(date, general_location) %>%
+  ungroup() %>%
+  group_by(ec5_uuid_day, set_location) %>% #group by day and site 
+  #add dummy variables for "Other" location sets
+  mutate(
+    #if site name "Other" and temp not recorded, set surface temp to dummy variable "12345"
+    surface_temp_c2 = 
+      case_when(set_location == "Other (specify in comments)" & is.na(surface_temp_c) ~ 12345, 
+                TRUE ~ surface_temp_c),
+    #same for salinity
+    salinity_ppt2 = 
+      case_when(set_location == "Other (specify in comments)" & is.na(salinity_ppt) ~ 12345,
+                TRUE ~ salinity_ppt)) %>%
+  #do the fill, direction "downup" fills downward first and then upward
+  tidyr::fill(c("surface_temp_c2", "salinity_ppt2"), .direction = "downup") %>% 
+  ungroup() %>%
+  #replace dummy "12345" values with NA
+  mutate(surface_temp_c2 = na_if(surface_temp_c2, 12345),
+         salinity_ppt2 = na_if(salinity_ppt2, 12345)) %>%
+  relocate(c("surface_temp_c2", "salinity_ppt2"), .after = surface_temp_c)
+
+
+#check whether fill was done correctly
+test <-
+  combined_df %>% distinct(ec5_uuid_set, .keep_all = TRUE) %>%
+  dplyr::select(date, set_location, salinity_ppt, salinity_ppt2, surface_temp_c, surface_temp_c2)
+
+#remove duplicate columns
+combined_df <- combined_df %>%
+  dplyr::select(-c(surface_temp_c, salinity_ppt)) %>%
+  rename(surface_temp_c = surface_temp_c2,
+         salinity_ppt = salinity_ppt2)
+
+#check that recorded salinities & temperatures are reasonable
+summary(combined_df$surface_temp_c)
+summary(combined_df$salinity_ppt) #this range is somewhat larger than I might expect
+
+```
+
+#QC & Cleaning: Lavage data
+
+```{r}
+
+#QC lavage data 
+
+#total number of lavage samples collected
+sum(!is.na(combined_df$lavage_bag)) 
+
+#unique bag numbers (should be 1-120)
+sort(unique(combined_df$lavage_bag))
+
+#check for error situations
+
+#lavage status is "No", "Empty," or NA, but lavage bag recorded  
+test <- combined_df %>%
+  filter(gastric_lavage != "yes" & !is.na(lavage_bag))
+
+#lavage status is "Yes" but no lavage bag recorded
+test <- combined_df %>%
+  filter(gastric_lavage == "yes" & is.na(lavage_bag))
+
+```
+
+#QC & Cleaning: Gill biopsy data
+
+```{r}
+
+#check for duplicated gill biopsy vials
+dup <- duplicated(combined_df$biopsy_vial) | duplicated(combined_df$biopsy_vial, fromLast = TRUE)
+test <- arrange(combined_df[dup, ], .by = biopsy_vial) %>% filter(!is.na(biopsy_vial)) %>%
+  dplyr::select(date, general_location, set_start_time, species, biopsy_vial, fish_comments)
+nrow(test)
+
+#unclear what happened with 2757 - maybe two gills into same tube?
+#vial 2714 was two gills into the same tube (see comments)
+
+combined_df <- combined_df %>%
+  mutate(gill_biopsy = case_when(!is.na(biopsy_vial) ~ "yes")) %>%
+  relocate(gill_biopsy, .before = biopsy_vial)
+
+unique(sort(combined_df$biopsy_vial))
+
+```
+
+#QC & Cleaning: Fin clip data
+
+```{r}
+
+#look at unique fin clip vials
+sort(unique(combined_df$fin_vial))
+
+#make the number digits the same for all vial IDs (adjust leading zeroes)
+#ignore vials that already have the year prefix (F24, F25) or any other non-numeric digit
+#create a test clean column (fin_vial2) to start
+combined_df <- combined_df %>% mutate(
+  fin_vial = as.character(fin_vial),
+  fin_vial2 = case_when(
+    grepl("^\\d+$", fin_vial) ~ sprintf("%03d", as.numeric(fin_vial)),
+    TRUE ~ fin_vial))
+#warning NAs introduced by coercion 
+
+#review the original and cleaned fin clip columns to check for problems
+test <- combined_df %>%
+  dplyr::select(ec5_uuid_day, fish_created_at, year, 
+                date, general_location, fin_vial, fin_vial2) %>% 
+  filter(!is.na(fin_vial)) %>%
+  mutate(Area = case_when(
+    general_location %in% c("Comox", "Campbell River", "Powell River") ~ "NSoG",
+    general_location %in% c("Cowichan", "Nanaimo") ~ "SSoG"))
+
+#add prefix for year (F24, F25) to the remaining vials
+#note: some tubes from 2024 were used in 2025 :(((
+#note: tubes F1-F5 have handwritten labels - track these down and assign them a 2024 label
+combined_df <- combined_df %>%
+  mutate(fin_vial2 = case_when(
+    year == 2024 & grepl("^\\d+", fin_vial2) ~ paste0("F24-", fin_vial2),
+    year == 2025 & grepl("^\\d+", fin_vial2) &
+       !ec5_uuid_day %in% c(
+        "e3fb10bf-e26a-4d65-9ade-42582d5ae80e",
+        "06b0aa6c-ac3b-4d56-af84-5ad6c41ee979",
+        "92fe9c13-374f-444f-8782-cc3974149fc3"
+      ) ~ paste0("F25-", fin_vial2),
+    grepl("^\\d+", fin_vial2) &
+      ec5_uuid_day %in% c(
+        "e3fb10bf-e26a-4d65-9ade-42582d5ae80e",
+        "06b0aa6c-ac3b-4d56-af84-5ad6c41ee979",
+        "92fe9c13-374f-444f-8782-cc3974149fc3"
+      ) ~ paste0("F24-", fin_vial2),
+    TRUE ~ fin_vial2))
+
+#review the original and cleaned fin clip columns to check for problems
+test <- combined_df %>%
+  dplyr::select(ec5_uuid_day, fish_created_at, year, 
+                date, general_location, fin_vial, fin_vial2) %>% 
+  filter(!is.na(fin_vial)) %>%
+  mutate(Area = case_when(
+    general_location %in% c("Comox", "Campbell River", "Powell River") ~ "NSoG",
+    general_location %in% c("Cowichan", "Nanaimo") ~ "SSoG"))
+
+#check for duplicated fin clip vials
+dup <- duplicated(test$fin_vial2) | duplicated(test$fin_vial2, fromLast = TRUE)
+test <- arrange(test[dup, ], .by = fin_vial2) %>% filter(!is.na(fin_vial2))
+#no duplicated fin clip vials
+
+#all looks good (MT 2025-07-17) so replace original column with clean column
+combined_df <- combined_df %>%
+  dplyr::select(-fin_vial) %>%
+  rename(fin_vial = fin_vial2) %>%
+  relocate(fin_vial, .after = biopsy_vial)
+
+```
+#QC & Cleaning: Adipose fin status
+
+```{r}
+
+#the recorded adipose fin clip status was found to be incorrect or not recorded for several
+#fish by looking through the original fish photos. Changes are made below:
+combined_df <- combined_df %>% mutate(
+  clip_status = case_when(
+    fish_photo %in% c("0107ce93-3e59-4042-8352-98d3438fba75_1719337221.jpg",
+                      "fe4293bc-1be6-4534-9419-950031c99d68_1753903818.jpg") ~ "clip",
+    fish_photo %in% c("07158733-841c-4adf-b607-6a1a6ba77811_1756239897.jpg",
+                      "0f33fe3a-5292-42dc-8c1f-45c23ac71eb7_1756325198.jpg",
+                      "165fb107-4edd-4c9b-88a8-0028c3b68db7_1754596534.jpg",
+                      "2291369c-95be-4e6a-adf5-a754c2970cec_1753901493.jpg",
+                      "39d5b9fa-73b0-465d-a33b-57a423bc6ca4_1749423484.jpg",
+                      "5ecfdff8-eb9c-426b-ad1d-2adf616e2f38_1752169063.jpg",
+                      "68764890-2c7e-4398-8aeb-e779deb4bb4c_1725570297.jpg",
+                      "780e3698-246f-498e-bfb4-c78500b0959d_1721165213.jpg",
+                      "858408eb-402e-41b0-a6f0-a89c7ec3355e_1717695141.jpg",
+                      "a6d52f9b-b6a1-46f2-8a64-098920e09aca_1752864220.jpg",
+                      "be1d0795-4e46-421b-8d21-ab0c7a9e5691_1717694280.jpg",
+                      "bfe830ad-86a7-452d-ab10-e41553b0cc6f_1717694050.jpg",
+                      "c4d881f1-f424-4309-a0fe-b78a144af713_1749754550.jpg",
+                      "d1f24be7-8ca4-4e2d-b9c3-277a0478d058_1756933809.jpg",
+                      "fed5c7dc-571f-4996-90a9-aedf2ac8c9f1_1717623657.jpg",
+                      "27645312-5290-4f1c-b442-2533d2b6f479_1720201260.jpg",
+                      "257308c1-32d6-47af-8f5a-a230536dd147_1746555435.jpg") ~ "unclip",
+    TRUE ~ clip_status))
+
+unique(combined_df$clip_status)
+
+test <- combined_df %>% filter(clip_status == "unk")
+#for two fish, the clip status can not be identified from the photo
+
+```
+
+
+#QC Microtrolling gear information
+
+```{r}
+#look for data mis-matches where number of hooks does not match expected
+test <- combined_df %>% filter(event_type == "Microtroll") %>%
+  group_by(ec5_uuid_set) %>%
+  slice(1) %>%
+  ungroup() %>%
+  dplyr::select(date, event_type, general_location, set_time_min,
+                sides_fished, deepest_hook_ft, interval_hook_ft,
+                number_hooks, surface_rod, set_comments) %>%
+  mutate(sides_fished_count = case_when(sides_fished == "Both" ~ 2,
+                                        sides_fished == "One" ~ 1),
+         hook_count = deepest_hook_ft/interval_hook_ft*sides_fished_count,
+         quality = case_when(hook_count == number_hooks ~ "Good",
+                             hook_count != number_hooks ~ "Poor")) %>%
+  filter(quality == "Poor")
+#there are some instances of this, but I think they are likely all due to a missing hook
+
+#set timer - this should always be 5 minutes
+unique(combined_df$set_time_min)
+
+#deepest hook - check if reasonable
+sort(unique(combined_df$deepest_hook_ft))
+
+#hook interval - should always be 25
+sort(unique(combined_df$interval_hook_ft))
+
+#surface rod - did someone use a surface rod?
+sort(unique(combined_df$surface_rod))
+
+#fish capture depth - check if reasonable
+sort(unique(combined_df$fish_depth_ft))
+
+#check for cases where fish depth is greater than max capture depth
+test <- combined_df %>%
+  filter(fish_depth_ft > deepest_hook_ft)
+nrow(test)
+```
+
+#QC & Cleaning: Species ID
+
+```{r}
+#several species ID's appeared incorrect upon review of the 
+#fish photos taken in the field
+
+# setwd("C:/Users/madeleinethomson/OneDrive/Herring-SRIF")
+photo_species <- read.xlsx("./Core-Fieldwork/Field-Data/Raw-Data/Fish-Morphometrics/0HerrSRIF_species_check_QC_2026-09-01.xlsx")
+
+unique(photo_species$confidence)
+
+photo_species <- photo_species %>% 
+  filter(confidence == "High") %>%
+  filter(original_species != new_species) %>%
+  filter(new_species != "Unsure") %>%
+  dplyr::select(original_species, new_species, fish_photo)
+
+combined_df <- left_join(combined_df, photo_species) 
+
+#update total catch counts (e.g., if a Chinook becomes a coho, +1 Coho, -1 Chinook)
+combined_df <- combined_df %>% group_by(ec5_uuid_set) %>% mutate(
+  Chinook = Chinook + sum(new_species!=species & new_species=="Chinook", na.rm = T),
+  Chinook = Chinook - sum(new_species!=species & species =="Chinook", na.rm = T),
+  Coho = Coho + sum(new_species!=species & new_species=="Coho", na.rm = T),
+  Coho = Coho - sum(new_species!=species & species =="Coho", na.rm = T),
+  Chum = Chum + sum(new_species!=species & new_species=="Chum", na.rm = T),
+  Chum = Chum - sum(new_species!=species & species =="Chum", na.rm = T),
+  Pink = Pink + sum(new_species!=species & new_species=="Pink", na.rm = T),
+  Pink = Pink - sum(new_species!=species & species =="Pink", na.rm = T))
+
+#replace original species with new species
+combined_df <- combined_df %>%
+  mutate(species = case_when(!is.na(new_species) ~ new_species, TRUE ~ species)) %>%
+  dplyr::select(-c(original_species, new_species))
+
+
+#but the final word here is really the genetics...
+#unfortunately a lot of the GSI failed, but we can use what we have
+
+#load genetics data
+gsi <- read.csv("./Core-Fieldwork/Field-Data/Raw-Data/GSI-Results/Merged/PSF-A1-Core-Fieldwork-GSI-Results-2026-11-09.csv")
+
+#look at which species were observed
+unique(gsi$species)
+#remove rows where fish species could not be identified 
+gsi <- gsi %>% filter(!species %in% c("None", "Ambiguous") & !is.na(species))
+
+#rename species column to distinguish from original ID
+#and select columns of interest
+gsi <- gsi %>% 
+  rename(new_species = species) %>%
+  dplyr::select(Vial, new_species)
+
+#create scale ID column to match "Vial" column in genetics data
+combined_df <- combined_df %>% mutate(
+  Vial = paste(scale_book, sprintf("%02d", scale_no), sep = "-"))
+head(sort(combined_df$Vial))
+
+#merge data
+combined_df <- left_join(combined_df, gsi)
+
+#update total catch counts (e.g., if a Chinook becomes a coho, +1 Coho, -1 Chinook)
+combined_df <- combined_df %>% group_by(ec5_uuid_set) %>% mutate(
+  Chinook = Chinook + sum(new_species!=species & new_species=="Chinook", na.rm = T),
+  Chinook = Chinook - sum(new_species!=species & species =="Chinook", na.rm = T),
+  Coho = Coho + sum(new_species!=species & new_species=="Coho", na.rm = T),
+  Coho = Coho - sum(new_species!=species & species =="Coho", na.rm = T),
+  Chum = Chum + sum(new_species!=species & new_species=="Chum", na.rm = T),
+  Chum = Chum - sum(new_species!=species & species =="Chum", na.rm = T),
+  Pink = Pink + sum(new_species!=species & new_species=="Pink", na.rm = T),
+  Pink = Pink - sum(new_species!=species & species =="Pink", na.rm = T))
+
+#replace original species with new species
+combined_df <- combined_df %>%
+  mutate(species = case_when(!is.na(new_species) ~ new_species, TRUE ~ species)) %>%
+  dplyr::select(-c(Vial, new_species))
+
+
+```
+
+#QC & Cleaning: Update fork length
+
+```{r}
+#several fish fork lengths appeared incorrect upon review of the fish photos taken in the field
+#these were re-measured from the photos in ImageJ
+
+combined_df <- combined_df %>% mutate(fork_length_mm = case_when(
+  fish_photo == "835ecdf8-ce54-4f8c-b69a-3393af3120f1_1717702091.jpg" ~ 106,
+  fish_photo == "7bccbe89-bf34-4606-a335-40aefb0f50a3_1718215697.jpg" ~ 58,
+  fish_photo == "0107ce93-3e59-4042-8352-98d3438fba75_1719337221.jpg" ~ 107,
+  fish_photo == "dbf460f7-6979-44d2-9d68-bd30016895c0_1719341840.jpg" ~ 104,
+  fish_photo == "ebb04b18-8bac-45e9-a7c0-3d045465b0fb_1719333528.jpg" ~ 120,
+  fish_photo == "6470452b-1083-4696-9982-161acaf75ed8_1720726923.jpg" ~ 126,
+  fish_photo == "6be58b7e-bbd5-4d91-9649-444733c33921_1753984712.jpg" ~ 102,
+  fish_photo == "51ea67a6-2d1b-4e93-a623-bc9bec9c371d_1718920230.jpg" ~ 133,
+  fish_photo == "d48d56a1-1201-4489-928c-c16bec44e3dd_1721328447.jpg" ~ 137,
+  fish_photo == "0a40a519-b0d1-4b4c-8c28-319d3bbcb3ed_1721755110.jpg" ~ 219,
+  fish_photo == "7c2ce843-b581-4d32-bc3f-d4475c90914c_1721759218.jpg" ~ 196,
+  fish_photo == "b8e02309-424d-42cb-94b0-9dedc1b55c79_1722976696.jpg" ~ 177,
+  fish_photo == "6c022a6f-89be-4557-ac89-e9e9c5d9922c_1723069116.jpg" ~ 218,
+  fish_photo == "c4825f3a-0198-45a6-966e-839bf08e6d69_1723137521.jpg" ~ 305,
+  fish_photo == "0dfc0e0d-3f53-4d86-b09a-4c9808efd88b_1723231820.jpg" ~ 227,
+  fish_photo == "a2b8df9b-5cae-41b6-a496-4939bcdc50f3_1726593980.jpg" ~ 281,
+  fish_photo == "dd870237-ac06-4d99-84d6-b3ba33c61d88_1753121816.jpg" ~ 175,
+  fish_photo == "ec3fb400-df93-4923-81bc-bc795d3c85cc_1753475636.jpg" ~ 197,
+  fish_photo == "f1ae82d3-0a26-4d8f-b200-5a39837f9ec8_1753474100.jpg" ~ 190,
+  fish_photo == "3f424c8c-f650-4377-9766-bd6241465201_1754596592.jpg" ~ 207,
+  fish_photo == "55792b77-85ee-4c44-97cc-478e59773b70_1755030050.jpg" ~ 174,
+  fish_photo == "2b95ff3b-981b-4695-930c-37406a185830_1756407812.jpg" ~ 167,
+  fish_photo == "3bbbf421-3790-4f75-ad86-c7d04475c121_1756411803.jpg" ~ 172,
+  TRUE ~ fork_length_mm))
+
+
+```
+
+#Lethal samples
+
+Lethal samples include fish euthanized for lab sampling and accidental mortalities. Most lethal samples are recorded in the lethal sample section of the form, but for microtrolling (or for fish with biosamples taken), they are recorded in the biosample branch with PIT tagging status "Euthanized and Retained" or "mort"
+
+
+```{r}
+#rename data sheet reference columns
+mort_clean <- mort %>%
+  dplyr::select(-c(created_at, uploaded_at, created_by, title, LS_photo)) %>%
+  rename(ec5_uuid_mort = ec5_branch_uuid,
+         ec5_uuid_set = ec5_branch_owner_uuid) 
+
+colnames(mort_clean) <- gsub("LS_", "", colnames(mort_clean))
+
+mort_biosample <- combined_df %>%
+  filter(tag_status %in% c("euth", "mort")) %>%
+  dplyr::select(ec5_uuid_set, ec5_branch_uuid, species) %>%
+  mutate(number = 1)
+
+mort_data <- full_join(mort_clean, mort_biosample)
+
+mort_data <- mort_data %>%
+  relocate(ec5_branch_uuid, .after = ec5_uuid_mort)
+```
+
+
+#Opportunistic dip net (lethal) samples
+
+We have a handful of samples that were sampled with non-standard methods. Create a separate form for these.
+
+```{r}
+
+#opportunistic other sampling 
+
+other <- set %>%
+  filter(event_type == "Other") %>%
+  dplyr::select(ec5_uuid_day, ec5_uuid_set, event_type, contains("O_")) 
+
+colnames(other) <- gsub("O_", "", colnames(other))
+
+colnames(other)
+
+other <- other %>%
+  dplyr::select(-c(UTM_Northing_set_start_gps, UTM_Easting_set_start_gps, UTM_Zone_set_start_gps)) 
+
+other_df <- right_join(day, other)
+
+other_df <- other_df %>%
+  dplyr::select(-c(vessels, day_surface_temp_c, pit_scanner, day_comments)) %>%
+  relocate(ec5_uuid_set, .after = ec5_uuid_day)
+
+#assign regions based on site names
+# other_df <- other_df %>%
+#   mutate(general_location = case_when(grepl("Cowichan", set_location) ~ "SGI",
+#                                     grepl("Southern Gulf Flex", set_location) ~ "SGI",
+#                                     grepl("Comox", set_location) ~ "CO",
+#                                     grepl("Powell River", set_location) ~ "PR",
+#                                     grepl("Campbell River", set_location) ~ "CR",
+#                                     grepl("Ladysmith", set_location) ~ "SGI",
+#                                     grepl("Discovery Islands", set_location) ~ "CR",
+#                                     TRUE ~ set_location)) 
+
+
+
+```
+
+#Combine lethal samples and other (lethal) samples
+
+```{r}
+#add other samples to the combined df and filter down to 1 row per set
+combined_df_other <- full_join(combined_df %>%
+                                  group_by(ec5_uuid_set) %>%
+                                  slice(1) %>%
+                                  dplyr::select(
+                                    ec5_uuid_day, ec5_uuid_set, project, date,
+                                    general_location, team, event_type, set_location, 
+                                    surface_temp_c, set_start_time, set_end_time, 
+                                    lat_set_start_gps, long_set_start_gps,
+                                    lat_set_end_gps, long_set_end_gps, 
+                                    set_comments),
+                                  other_df %>%
+                                  dplyr::select(-c(crew)))
+
+#merge set and mort data
+mort_data <- inner_join(combined_df_other, mort_data)
+
+
+# test <- mort_data %>%
+#   filter(species == "Chinook",
+#          event_type == "Microtroll") %>%
+#   dplyr::select(event_type, date, general_location, set_start_time, 
+#                 species, ec5_uuid_set, ec5_uuid_mort, ec5_branch_uuid, Comments)
+
+#take the average lat/long (this will only affect microtrolling)
+mort_data$lat_Mean_GPS <- rowMeans(mort_data[, c("lat_set_start_gps", "lat_set_end_gps")], na.rm = TRUE)
+mort_data$long_Mean_GPS <- rowMeans(mort_data[, c("long_set_start_gps", "long_set_end_gps")], na.rm = TRUE)
+
+
+mort_data_print <- mort_data %>%
+  ungroup() %>%
+  dplyr::select(-c(lat_set_start_gps, long_set_start_gps,
+            lat_set_end_gps, long_set_end_gps, set_comments,
+            set_start_time, set_end_time, ec5_uuid_day, ec5_uuid_set, ec5_uuid_mort, ec5_branch_uuid,
+            life_stage, size_herring)) %>%
+  relocate(c(lat_Mean_GPS, long_Mean_GPS), .after = set_location) %>%
+  relocate(general_location, .before = set_location) %>%
+  arrange(date) %>%
+  arrange(general_location) %>%
+  arrange(species) 
+
+write.csv(mort_data_print, file = paste0("./Core-Fieldwork/Field-Data/Clean-Data/", Sys.Date(), "-psf-herring-A1-field-lethal-samples", ".csv"))
+
+```
+
+#Integrate mort data into main catch data
+
+```{r}
+
+mort_data_wide <- mort_data %>%
+  group_by(ec5_uuid_set, species) %>%
+  summarise(number = sum(number, na.rm = TRUE)) %>%
+  mutate(species = case_when(species == "Herring_Unkn_Size" ~ "Herring",
+                                   TRUE ~ species)) %>%
+  mutate(species = paste0(species, "_Lethal")) %>%
+  pivot_wider(names_from = species, values_from = number) 
+
+# mort_data_wide[is.na(mort_data_wide)] <- 0
+
+combined_df <- left_join(combined_df, mort_data_wide)
+
+combined_df <- combined_df %>% relocate(set_comments, .after = last_col())
+
+```
+
+
+#Save main catch data
+
+```{r}
+write.csv(combined_df, file = paste0("./Core-Fieldwork/Field-Data/Clean-Data/", Sys.Date(), "-psf-herring-A1-field-full-catch-data", ".csv"))
+
+# combined_df_2024 <- combined_df %>% filter(year == 2024)
+# 
+# write.csv(combined_df_2024, file = paste0(Sys.Date(), "-psf-herring-A1-field-full-catch-data-2024", ".csv"))
+
+```
+
+
+#Isotope data
+
+Isotope samples are collected from fish in the lab. This form contains all non-Coho or Chinook stable isotope entries. Coho and Chinook isotope samples are found in the gastric lavage form.
+
+```{r}
+
+isotope_clean <- isotope %>%
+  rename(ec5_uuid_set = ec5_branch_owner_uuid) %>%
+  dplyr::select(-c(uploaded_at, created_by, title))
+
+colnames(isotope_clean) <- gsub("SI_", "", colnames(isotope_clean))
+
+isotope_clean <- isotope_clean %>%
+  mutate(Length_Type = case_when(species %in% c("Chinook", "Coho", "Pink", "Chum", "Sockeye") ~ "Fork",
+                                 TRUE ~ "Standard")) %>%
+  relocate(Length_Type, .after = length_mm)
+
+
+isotope_combined <- right_join(combined_df_other, isotope_clean)
+
+#take the average lat/long (this will only affect microtrolling)
+isotope_combined$lat_Mean_GPS <- rowMeans(isotope_combined[, c("lat_set_start_gps", "lat_set_end_gps")], na.rm = TRUE)
+isotope_combined$long_Mean_GPS <- rowMeans(isotope_combined[, c("long_set_start_gps", "long_set_end_gps")], na.rm = TRUE)
+
+
+#check for fish with no code entered
+test <- isotope_combined %>%
+  filter(is.na(sample_code)) %>%
+  dplyr::select(date, general_location, set_start_time, sample_code)
+nrow(test)
+
+
+#fix funky sample codes 
+isotope_combined <- isotope_combined %>% arrange(sample_code)
+unique(isotope_combined$sample_code)
+
+
+#resolve typos and formatting problems
+isotope_combined <- isotope_combined %>%
+  mutate(sample_code_Num = as.numeric(str_extract(sample_code, "\\d+")),
+         sample_code_Num2 = sprintf("%03d", sample_code_Num),
+         sample_code_Base = "BCSRIF_",
+         sample_code = paste0(sample_code_Base, sample_code_Num2)) %>%
+  arrange(sample_code)
+
+#check that it worked
+unique(isotope_combined$sample_code)
+
+#check for duplicated codes
+dup <- isotope_combined$sample_code[duplicated(isotope_combined$sample_code)]
+sort(dup)
+
+test <- isotope_combined %>%
+  filter(sample_code_Num %in% dup) %>%
+  dplyr::select(date, general_location, set_start_time, sample_code)
+nrow(test)
+
+#check for gaps in the codes
+expected <- seq(min(isotope_combined$sample_code_Num, na.rm = TRUE),
+                max(isotope_combined$sample_code_Num, na.rm = TRUE))
+missing_vals <- setdiff(expected, isotope_combined$sample_code_Num)
+missing_vals
+
+#check for rows with no species recorded
+test <- isotope_combined %>% filter(is.na(species))
+nrow(test)
+
+#check for rows with species recorded as "other"
+test <- isotope_combined %>%
+  filter(species == "Other (Specify in Comments)") %>%
+  dplyr::select(date, general_location, set_start_time, species, sample_code, comments)
+nrow(test)
+
+#weight to length regression
+colnames(isotope_combined)
+# library(ggplot2)
+ggplot(data = isotope_combined) +
+  geom_point(aes(x = length_mm, y = weight_g, color = species)) +
+  facet_wrap(~species) +
+  theme_bw()
+#displays at bottom of chunk
+
+
+#manually fix an error in the sample type column (from the first couple fish)
+isotope_combined <- isotope_combined %>%
+  mutate(sample_type = case_when(
+    as.numeric(sample_code_Num) <= 77 & is.na(sample_type) ~ "Muscle Plug",
+    TRUE ~ sample_type))
+
+#manually fix an error with the ruler used in the second year of processing
+#Ryan + Tristan used fork board that had a ruler offset to the right by 1mm
+isotope_combined <- isotope_combined %>% mutate(
+  length_mm2 = case_when(
+    year(date) == 2025 & as.Date(created_at) < as.Date("2026-01-01") & as.Date(created_at) > as.Date("2025-11-01")~ length_mm - 1,
+    TRUE ~ length_mm)) %>%
+  relocate(length_mm2, .after = length_mm)
+#looks good
+
+isotope_combined <- isotope_combined %>% 
+  dplyr::select(-length_mm) %>%
+  rename(length_mm = length_mm2)
+
+#remove length for BCSRIF_332 (length suspiciously small for time of year
+#and otolith suspiciously large)
+isotope_combined <- isotope_combined %>% 
+  mutate(length_mm = case_when(sample_code == "BCSRIF_332" ~ NA,
+                               TRUE ~ length_mm))
+
+#add a note about some pink and chum give to Jamie
+isotope_combined <- isotope_combined %>%
+  mutate(comments = case_when(sample_code %in% c(
+    'BCSRIF_844', 'BCSRIF_845', 'BCSRIF_846', 'BCSRIF_847', 'BCSRIF_848', 'BCSRIF_849',
+    'BCSRIF_850', 'BCSRIF_851', 'BCSRIF_852', 'BCSRIF_853', 'BCSRIF_854', 'BCSRIF_855',
+    'BCSRIF_856', 'BCSRIF_858', 'BCSRIF_863', 'BCSRIF_870', 'BCSRIF_871', 'BCSRIF_873',
+    'BCSRIF_874', 'BCSRIF_877', 'BCSRIF_878', 'BCSRIF_880') ~ paste0(
+      comments, "; ", "whole body samples given to Jaime Grimm"),
+    TRUE ~ comments))
+
+isotope_combined <- isotope_combined %>%
+  mutate(year = year(date),
+         month = month(date)) %>%
+  relocate(year, .after = date) %>%
+  relocate(month, .after = year) %>%
+  ungroup() %>%
+  arrange(sample_code) %>%
+  relocate(c(lat_Mean_GPS, long_Mean_GPS), .after = set_start_time) %>%
+  relocate(general_location, .before = set_location) %>%
+  dplyr::select(-c(lat_set_start_gps, long_set_start_gps,  
+                   lat_set_end_gps, long_set_end_gps, ec5_uuid_day, 
+                   ec5_uuid_set, ec5_branch_uuid, set_comments, set_end_time,
+                   sample_code_Base, sample_code_Num, sample_code_Num2, qc_check,
+                   accuracy_set_start_gps))
+
+write.csv(isotope_combined, file = paste0("./Core-Fieldwork/Field-Data/Clean-Data/", Sys.Date(), "-psf-herring-A1-field-isotope-net-sampled", ".csv"))
+
+```
+#QC - check that all morts are processed 
+
+```{r}
+summary1 <- mort_data %>% 
+  group_by(date, general_location, set_location, event_type, 
+           species) %>% 
+  summarise(caught = sum(number, na.rm = TRUE))
+
+summary2 <- isotope_combined %>%
+  group_by(date, general_location, set_location, event_type,
+           species) %>%
+  summarise(processed = n())
+
+summary <- full_join(summary1, summary2) %>%
+  filter(!species %in% c("Chinook", "Coho")) %>%
+  arrange(date) %>%
+  mutate(comments = "")
+
+test <- summary %>% filter(species == "Herring_Unkn_Size")
+
+write.csv(summary, paste0("./Core-Fieldwork/Field-Data/Clean-Data/", Sys.Date(), "-field-isotope-data-differences.csv"),
+          row.names = FALSE)
+
+```
+
+#QC values of each column
+```{r}
+colnames(combined_df)
+
+unique(combined_df$project)
+
+unique(combined_df$year)
+
+unique(combined_df$month)
+
+summary(combined_df$date)
+test <- combined_df %>% filter(is.na(date))
+nrow(test)
+#date is never missing
+
+unique(combined_df$general_location)
+test <- combined_df %>% filter(is.na(general_location))
+nrow(test)
+#general location is never missing
+
+test <- combined_df %>% filter(is.na(vessels)) %>% group_by(ec5_uuid_day) %>% slice(1)
+nrow(test)
+#vessels are sometimes not entered or recorded in the comments
+#but I don't think this really matters 
+
+summary(combined_df$fork_length_mm)
+
+sort(unique(combined_df$lavage_bag))
+
+test <- combined_df %>% filter(lavage_bag > 120)
+
+```
+

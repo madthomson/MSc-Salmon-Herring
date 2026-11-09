@@ -1,0 +1,5 @@
+"0","combinedA %>%"
+"0","  group_by(survey_name, year, trawl_cruise, salmon_sample_type) %>% "
+"0","           # salmon_sample_type) %>%"
+"0","  # filter(survey_name == ""SOG Midwater Salmon Trawl"") %>%"
+"0","  summarise(count = n())"
